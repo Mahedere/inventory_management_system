@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Mahedere/inventory_management_system#readme",
   "dependencies": {
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "express-validator": "^7.2.0"
   }
 }
