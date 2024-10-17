@@ -1,0 +1,22 @@
+{
+  "name": "inventory_management_system",
+  "version": "1.0.0",
+  "description": "Inventory Management System",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mahedere/inventory_management_system.git"
+  },
+  "author": "Mahedere",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mahedere/inventory_management_system/issues"
+  },
+  "homepage": "https://github.com/Mahedere/inventory_management_system#readme",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
