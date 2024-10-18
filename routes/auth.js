@@ -51,28 +51,60 @@ router.post(
 
     // Hashes the password using bcrypt with a salt factor of 10
     const hashedPassword = await bcrypt.hash(password, 10);
-  // Create JWT token
-  const token = await JWT.sign(
-    { email },
-    "sryucgkjlkjjdxfcvgljjgfdxykxfy", // secret key
-    {
-      expiresIn: 5000,
-    }
-  );
+    // Create JWT token
+    const token = await JWT.sign(
+      { email },
+      "sryucgkjlkjjdxfcvgljjgfdxykxfy", // secret key
+      {
+        expiresIn: 5000,
+      }
+    );
 
-  // Adds the new user to the users array (or database)
-  users.push({
-    email,
-    password: hashedPassword,
-  });
+    // Adds the new user to the users array (or database)
+    users.push({
+      email,
+      password: hashedPassword,
+    });
 
-  // Send token and success message
-  return res.json({
-    token,
-    message: "User successfully signed up",
-  });
-}
+    // Send token and success message
+    return res.json({
+      token,
+      message: "User successfully signed up",
+    });
+  }
 );
+
+/**
+ * Route to log in a user.
+ * Checks if the user exists, verifies the password, and returns a JWT token upon successful authentication.
+ *
+ * @route POST /login
+ * @param {string} email - User's email address.
+ * @param {string} password - User's password.
+ * @returns {object} JWT token if login is successful, or an error message for invalid credentials.
+ */
+router.post("/login", async (req, res) => {
+  const { password, email } = req.body; // Extract email and password from request
+
+  // Find user by email
+  let user = users.find((user) => user.email === email);
+  if (!user) {
+    return res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] }); // User not found
+  }
+
+  // Compare passwords
+  let isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    return res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] }); // Password mismatch
+  }
+
+  // Generate JWT token with a secret key and expiration
+  const token = await JWT.sign({ email }, "secretKey", { expiresIn: 5000 });
+
+  // Send token response
+  res.json({ token });
+});
+
 /**
  * Route to retrieve all users (for testing purposes or admin access).
  * Returns the list of all users from the database.
