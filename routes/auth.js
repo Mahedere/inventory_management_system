@@ -2,6 +2,7 @@ const router = require("express").Router(); // Import Express Router to handle r
 const { check, validationResult } = require("express-validator"); // Import express-validator for validation
 const { users } = require("../db"); // Import the users array or database model from a separate file
 const bcrypt = require("bcrypt"); // Import bcrypt for password hashing
+const JWT = require("jsonwebtoken");
 /**
  * Route for user signup
  * Validates email and password, checks for existing users, hashes password, and adds the user to the database.
@@ -49,19 +50,29 @@ router.post(
     }
 
     // Hashes the password using bcrypt with a salt factor of 10
-    let hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword); // Logs the hashed password to the console for debugging
+    const hashedPassword = await bcrypt.hash(password, 10);
+  // Create JWT token
+  const token = await JWT.sign(
+    { email },
+    "sryucgkjlkjjdxfcvgljjgfdxykxfy", // secret key
+    {
+      expiresIn: 5000,
+    }
+  );
 
-    // Adds the new user to the users array (or database)
-    users.push({
-      email,
-      password: hashedPassword,
-    });
+  // Adds the new user to the users array (or database)
+  users.push({
+    email,
+    password: hashedPassword,
+  });
 
-    res.send("Validation Passed"); // Sends a success message if everything passes
-  }
+  // Send token and success message
+  return res.json({
+    token,
+    message: "User successfully signed up",
+  });
+}
 );
-
 /**
  * Route to retrieve all users (for testing purposes or admin access).
  * Returns the list of all users from the database.
