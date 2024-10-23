@@ -1,41 +1,26 @@
 const express = require("express");
-const auth = require("./routes/auth"); // Import the auth routes
-const mongoose = require("mongoose");
+const authRoutes = require("./routes/auth");
+const connectToDB = require("./config/db");
 const bodyParser = require("body-parser");
 
 const app = express();
 
-// Middleware for parsing request bodies
+// Body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
 
-// MongoDB connection function
-const connectToDB = async () => {
-  try {
-    await mongoose.connect("mongodb://localhost:27017/yourDatabaseName", {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("Connected to MongoDB");
-  } catch (error) {
-    console.error("Database connection error:", error);
-    process.exit(1);
-  }
-};
-
-// Call the database connection function
+// Connect to the database
 connectToDB();
 
-// Use the auth routes
-app.use("/auth", auth);
+// Routes
+app.use("/auth", authRoutes);
 
-// Test route
+// Main route
 app.get("/", (req, res) => {
-  res.send("Server is running");
+  res.send("Hi, I am working");
 });
 
-// Start the server
+// Server listening on port 5000
 app.listen(5000, () => {
-  console.log("Server running on port 5000");
+  console.log("Server is running on port 5000");
 });
