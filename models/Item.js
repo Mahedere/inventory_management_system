@@ -1,5 +1,21 @@
 const mongoose = require('mongoose');
 
+/**
+ * Schema representing an item in the inventory.
+ * @typedef {Object} Item
+ * @property {string} name - The name of the item.
+ * @property {string} description - A description of the item.
+ * @property {string} model - The model identifier of the item.
+ * @property {string} category - The category to which the item belongs.
+ * @property {number} quantity - The current quantity of the item in stock (must be non-negative).
+ * @property {number} maxLimit - The maximum quantity allowed for the item.
+ * @property {mongoose.Schema.Types.ObjectId} lastUpdatedBy - The ID of the user who last updated the item.
+ */
+
+/**
+ * Mongoose schema for an inventory item.
+ * @type {mongoose.Schema}
+ */
 const itemSchema = new mongoose.Schema({
   name: {
     type: String,

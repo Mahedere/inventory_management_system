@@ -2,6 +2,16 @@ const Item = require("../models/Item");
 const User = require("../models/User");
 const Notification = require("../models/Notification");
 
+/**
+ * Creates a new inventory item and sends notifications to users who have opted in for item addition notifications.
+ * @async
+ * @function createItem
+ * @param {Object} req - Express request object containing the item details.
+ * @param {Object} req.body - Request body containing the item's name, description, model, category, quantity, and maxLimit.
+ * @param {Object} req.user - The authenticated user adding the item.
+ * @param {Object} res - Express response object used to send a response back to the client.
+ * @returns {Promise<void>} Responds with the created item or an error message.
+ */
 const createItem = async (req, res) => {
   try {
     const { name, description, model, category, quantity, maxLimit } = req.body;
@@ -34,6 +44,15 @@ const createItem = async (req, res) => {
   }
 };
 
+/**
+ * Updates the quantity of an inventory item and sends low stock alerts if the quantity is below 20% of the max limit.
+ * @async
+ * @function updateItemQuantity
+ * @param {Object} req - Express request object containing the updated quantity.
+ * @param {Object} req.body - Request body containing the new quantity value.
+ * @param {Object} res - Express response object used to send a response back to the client.
+ * @returns {Promise<void>} Responds with the updated item or an error message.
+ */
 const updateItemQuantity = async (req, res) => {
   try {
     const { quantity } = req.body;
@@ -76,6 +95,15 @@ const updateItemQuantity = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves a list of inventory items based on optional filters for name, category, and model.
+ * @async
+ * @function getItems
+ * @param {Object} req - Express request object containing the query filters.
+ * @param {Object} req.query - Query parameters for filtering items by name, category, or model.
+ * @param {Object} res - Express response object used to send a response back to the client.
+ * @returns {Promise<void>} Responds with a list of filtered items or an error message.
+ */
 const getItems = async (req, res) => {
   try {
     const { name, category, model } = req.query;
@@ -92,6 +120,14 @@ const getItems = async (req, res) => {
   }
 };
 
+/**
+ * Deletes an inventory item and sends notifications to users who have opted in for item removal notifications.
+ * @async
+ * @function deleteItem
+ * @param {Object} req - Express request object containing the item ID.
+ * @param {Object} res - Express response object used to send a response back to the client.
+ * @returns {Promise<void>} Responds with a success message or an error message.
+ */
 const deleteItem = async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
