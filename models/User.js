@@ -10,6 +10,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    enum: ["storekeeper", "salesperson"], // Restricts the role to specific values
+    required: true, // Ensure that the role is provided
+  },
 });
 
 const User = mongoose.model("User", userSchema);

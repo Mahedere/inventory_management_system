@@ -1,26 +1,27 @@
 const express = require("express");
-const authRoutes = require("./routes/auth");
-const connectToDB = require("./config/db");
+const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const authRoutes = require("./routes/auth");
+const inventoryRouter  = require("./routes/inventoryRoutes");
 
 const app = express();
 
-// Body parser
+// Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Connect to the database
-connectToDB();
+// Database connection
+mongoose.connect("mongodb://localhost:27017/", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log(err));
 
 // Routes
 app.use("/auth", authRoutes);
+app.use("/store", inventoryRouter);
 
-// Main route
-app.get("/", (req, res) => {
-  res.send("Hi, I am working");
-});
-
-// Server listening on port 5000
 app.listen(5000, () => {
-  console.log("Server is running on port 5000");
+  console.log("Server running on port 5000");
 });

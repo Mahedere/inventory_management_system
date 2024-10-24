@@ -28,7 +28,7 @@ exports.signup = async (req, res) => {
 
     await user.save();
 
-    const token = JWT.sign({ email }, "secretKey", { expiresIn: "1h" });
+    const token = JWT.sign({ email }, "guyfeoufyfew8dsc", { expiresIn: "1h" });
     return res.json({ token, message: "User successfully signed up" });
   } catch (error) {
     console.error(error.message);
@@ -53,7 +53,7 @@ exports.login = async (req, res) => {
       return res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });
     }
 
-    const token = JWT.sign({ email }, "secretKey", { expiresIn: "1h" });
+    const token = JWT.sign({ email }, "guyfeoufyfew8dsc", { expiresIn: "1h" });
     return res.json({ token });
   } catch (error) {
     console.error(error.message);
