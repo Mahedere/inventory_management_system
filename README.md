@@ -17,7 +17,7 @@ A Node.js based inventory management system with JWT authentication and role-bas
 npm install
 
 2. Create .env file with the following variables:
-PORT=3000
+PORT=5000
 MONGODB_URI=mongodb://localhost:27017/inventory
 JWT_SECRET=your_jwt_secret_key
 JWT_EXPIRE=24h
