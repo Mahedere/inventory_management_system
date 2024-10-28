@@ -8,6 +8,8 @@ A Node.js based inventory management system with JWT authentication and role-bas
 - Role-based access control (Storekeeper and Salesperson)
 - Item management (CRUD operations)
 - Stock level monitoring
+- Sales Tracking and Reporting
+- Data Aggregation and Summaries
 - Notification system
 - Search and filter functionality
 
