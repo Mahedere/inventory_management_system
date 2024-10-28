@@ -2,7 +2,7 @@ const Sale = require('../models/Sale');
 const Item = require('../models/Item');
 const { APIError } = require('../utils/errorHandler');
 
-/*
+/**
  * Create a new sale record
  * @route POST /api/sales
  * @access Private/Salesperson
@@ -21,11 +21,8 @@ const createSale = async (req, res) => {
       throw new APIError('Insufficient stock', 400);
     }
 
-    // Calculate total amount and validate
+    // Calculate total amount
     const totalAmount = item.price * quantity;
-    if (isNaN(totalAmount)) {
-      throw new APIError('Invalid total amount calculation', 400);
-    }
 
     // Create sale record
     const sale = await Sale.create({
@@ -35,7 +32,6 @@ const createSale = async (req, res) => {
       totalAmount,
       customerName,
       customerContact,
-      saleDate: new Date() // Set the current date and time
     });
 
     // Update item quantity
@@ -54,7 +50,7 @@ const createSale = async (req, res) => {
   }
 };
 
-/*
+/**
  * Get sales report
  * @route GET /api/sales/report
  * @access Private/Storekeeper
@@ -83,48 +79,43 @@ const getSalesReport = async (req, res) => {
       .sort('-saleDate');
 
     // Calculate summary statistics
-    const totalSales = await Sale.countDocuments(query);
-
-    // Calculate total revenue
-    const totalRevenueResult = await Sale.aggregate([
-      { $match: query },
-      { $group: { _id: null, total: { $sum: '$totalAmount' } } }
-    ]);
-    const totalRevenue = totalRevenueResult[0] ? totalRevenueResult[0].total : 0;
-
-    // Calculate sales by salesperson
-    const salesBySalesperson = await Sale.aggregate([
-      { $match: query },
-      {
-        $group: {
-          _id: '$soldBy',
-          totalSales: { $sum: 1 },
-          totalRevenue: { $sum: '$totalAmount' },
-          totalItems: { $sum: '$quantity' }
+    const summary = {
+      totalSales: await Sale.countDocuments(query),
+      totalRevenue: await Sale.aggregate([
+        { $match: query },
+        { $group: { _id: null, total: { $sum: '$totalAmount' } } }
+      ]),
+      salesBySalesperson: await Sale.aggregate([
+        { $match: query },
+        { 
+          $group: { 
+            _id: '$soldBy',
+            totalSales: { $sum: 1 },
+            totalRevenue: { $sum: '$totalAmount' },
+            totalItems: { $sum: '$quantity' }
+          }
+        },
+        {
+          $lookup: {
+            from: 'users',
+            localField: '_id',
+            foreignField: '_id',
+            as: 'salesperson'
+          }
+        },
+        { $unwind: '$salesperson' },
+        {
+          $project: {
+            _id: 1,
+            totalSales: 1,
+            totalRevenue: 1,
+            totalItems: 1,
+            'salesperson.name': 1,
+            'salesperson.email': 1
+          }
         }
-      },
-      {
-        $lookup: {
-          from: 'users',
-          localField: '_id',
-          foreignField: '_id',
-          as: 'salesperson'
-        }
-      },
-      { $unwind: '$salesperson' },
-      {
-        $project: {
-          _id: 1,
-          totalSales: 1,
-          totalRevenue: 1,
-          totalItems: 1,
-          'salesperson.name': 1,
-          'salesperson.email': 1
-        }
-      }
-    ]);
-
-    const summary = { totalSales, totalRevenue, salesBySalesperson };
+      ])
+    };
 
     res.json({ sales, summary });
   } catch (error) {
@@ -151,7 +142,7 @@ const getSalesPerformance = async (req, res) => {
     }
 
     // Get performance metrics
-    const performanceResult = await Sale.aggregate([
+    const performance = await Sale.aggregate([
       { $match: query },
       {
         $group: {
@@ -164,13 +155,6 @@ const getSalesPerformance = async (req, res) => {
       }
     ]);
 
-    const performance = performanceResult[0] || {
-      totalSales: 0,
-      totalRevenue: 0,
-      totalItems: 0,
-      averageSaleValue: 0
-    };
-
     // Get daily sales trend
     const dailyTrend = await Sale.aggregate([
       { $match: query },
@@ -182,10 +166,18 @@ const getSalesPerformance = async (req, res) => {
           items: { $sum: '$quantity' }
         }
       },
-      { $sort: { '_id': 1 } } // Sort by date
+      { $sort: { '_id': 1 } }
     ]);
 
-    res.json({ performance, dailyTrend });
+    res.json({
+      performance: performance[0] || {
+        totalSales: 0,
+        totalRevenue: 0,
+        totalItems: 0,
+        averageSaleValue: 0
+      },
+      dailyTrend
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
