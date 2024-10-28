@@ -1,6 +1,6 @@
 # Inventory Management System
 
-A Node.js based inventory management system with JWT authentication and role-based access control.
+A Node.js-based Inventory Management System with JWT authentication, role-based access control, and essential inventory functionalities. This system is designed for sales and stock tracking with features for both salespeople and storekeepers.
 
 ## Features
 
