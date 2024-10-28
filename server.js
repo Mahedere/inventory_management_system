@@ -4,7 +4,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const itemRoutes = require('./routes/itemRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
-
+const saleRoutes = require('./routes/saleRoutes');
 const app = express();
 
 // Connect to database
@@ -17,7 +17,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/items', itemRoutes);
 app.use('/api/notifications', notificationRoutes);
-
+app.use('/api/sales', saleRoutes);
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);

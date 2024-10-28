@@ -14,7 +14,7 @@ const Notification = require("../models/Notification");
  */
 const createItem = async (req, res) => {
   try {
-    const { name, description, model, category, quantity, maxLimit } = req.body;
+    const { name, description, model, category, quantity, maxLimit ,price} = req.body;
 
     const item = await Item.create({
       name,
@@ -23,6 +23,8 @@ const createItem = async (req, res) => {
       category,
       quantity,
       maxLimit,
+      price,
+      addedBy: req.user._id,
       lastUpdatedBy: req.user._id,
     });
 
@@ -33,7 +35,7 @@ const createItem = async (req, res) => {
     await Notification.insertMany(
       users.map((user) => ({
         user: user._id,
-        message: `New item ${name} has been added to inventory`,
+        message: `New item ${name} has been added to inventory by ${item.addedBy.name}`,
         type: "itemAdded",
       }))
     );
