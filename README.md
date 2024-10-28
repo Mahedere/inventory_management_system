@@ -51,7 +51,7 @@ npm run dev
 - GET /api/sales/report - Generate sales report (Storekeeper only).
   - Query Parameters: startDate, endDate, salesperson
 - GET /api/sales/performance - Get individual salesperson performance (Salesperson only).
- - Query Parameters: startDate, endDate
+  - Query Parameters: startDate, endDate
 
 ### Notifications
 - GET /api/notifications - Get user notifications
