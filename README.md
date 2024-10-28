@@ -40,12 +40,12 @@ npm run dev
 - POST /api/items - Create new item (Storekeeper only)
   - Body: { name, description, model, category, quantity, maxLimit, price }
 - PATCH /api/items/:id/quantity - Update item quantity (Salesperson only)
-   -Body: { quantity }
+   - Body: { quantity }
 - DELETE /api/items/:id - Delete item (Storekeeper only)
 
 ### Sales
 - POST /api/sales - Record a sale (Salesperson only).
-   -Body: { itemId, quantity, customerName, customerContact }
+   - Body: { itemId, quantity, customerName, customerContact }
 - GET /api/sales/report - Generate sales report (Storekeeper only).
   - Query Parameters: startDate, endDate, salesperson
 - GET /api/sales/performance - Get individual salesperson performance (Salesperson only).
@@ -59,18 +59,18 @@ npm run dev
 
 ### Storekeeper
 - Permissions:
- - Manage items (add, delete).
- - View sales reports.
- - Receive notifications.
+   - Manage items (add, delete).
+   - View sales reports.
+   - Receive notifications.
 - APIs Accessible: /api/items, /api/sales/report, /api/notifications
 
 ### Salesperson
 - Permissions:
- - View and update item quantities.
- - Record sales transactions.
- - View personal sales performance.
- - Receive notifications.
- - APIs Accessible: /api/items, /api/sales, /api/notifications.
+  - View and update item quantities.
+  - Record sales transactions.
+  - View personal sales performance.
+  - Receive notifications.
+- APIs Accessible: /api/items, /api/sales, /api/notifications.
 
 ## Error Handling
 All endpoints include proper error handling and validation.
