@@ -63,17 +63,18 @@ const getSalesReport = async (req, res) => {
     // Add date range to query
     if (startDate || endDate) {
       query.saleDate = {};
-      if (startDate) query.saleDate.$gte = new Date(startDate);
-      if (endDate) query.saleDate.$lte = new Date(endDate);
+      // if (startDate) query.saleDate = new Date(startDate);
+      if (startDate) query.saleDate = Date(startDate);
+      if (endDate) query.saleDate = Date(endDate);
     }
 
     // Add salesperson filter
     if (salesperson) {
       query.soldBy = salesperson;
     }
-
+    // console.log(query)
     // Get sales with populated data
-    const sales = await Sale.find(query)
+    const sales = await Sale.find().where('saleDate').gt(startDate).lt(endDate)
       .populate('item', 'name price')
       .populate('soldBy', 'name email')
       .sort('-saleDate');
@@ -87,8 +88,8 @@ const getSalesReport = async (req, res) => {
       ]),
       salesBySalesperson: await Sale.aggregate([
         { $match: query },
-        { 
-          $group: { 
+        {
+          $group: {
             _id: '$soldBy',
             totalSales: { $sum: 1 },
             totalRevenue: { $sum: '$totalAmount' },
