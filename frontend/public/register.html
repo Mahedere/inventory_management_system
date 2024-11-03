@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Inventory Management</title>
+    <link href="./css/style.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-50">
+    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8 card">
+            <div>
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                    Create a new account
+                </h2>
+            </div>
+            <form id="registerForm" class="mt-8 space-y-5">
+                <div class="rounded-md shadow-sm space-y-6">
+                    <div>
+                        <label for="name" class="sr-only">Name</label>
+                        <input id="name" name="name" type="text" required class="input-field rounded-t-md"
+                            placeholder="Full Name">
+                    </div>
+                    <div>
+                        <label for="email" class="sr-only">Email address</label>
+                        <input id="email" name="email" type="email" required class="input-field"
+                            placeholder="Email address">
+                    </div>
+                    <div>
+                        <label for="password" class="sr-only">Password</label>
+                        <input id="password" name="password" type="password" required class="input-field"
+                            placeholder="Password">
+                    </div>
+                    <div>
+                        <label for="confirm-password" class="sr-only">Confirm Password</label>
+                        <input id="confirm-password" name="confirm-password" type="password" required
+                            class="input-field" placeholder="Confirm Password">
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between mt-6">
+                    <div class="flex items-center ">
+                        <input id="terms" name="terms" type="checkbox" required
+                            class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                        <label for="terms" class="ml-2 block text-sm text-gray-900">
+                            I agree to the Terms and Conditions
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" id="registerButton" class="btn-primary w-full flex justify-center p-3 rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                        <span id="buttonText">Register</span>
+                        <span id="loadingSpinner" class="hidden">
+                            <svg class="animate-spin h-5 w-5 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+
+                <div class="text-center">
+                    <a href="login.html" class="font-medium text-primary-600 hover:text-primary-500 text-sm">
+                        Already have an account? Sign in
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="./js/auth.js"></script>
+</body>
+
+</html>
