@@ -1,84 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory Management System</title>
     <link href="./css/style.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-50">
     <!-- Main Layout -->
     <div class="min-h-screen flex">
         <!-- Sidebar -->
-        <aside class="w-64 bg-white border-gray-300 px-4">
-            <div class="py-12">
-                <h1 class="text-3xl font-extrabold text-gray-900">Inventory</h1>
-                <!-- User Profile Section -->
-            <div class="py-12 border-b border-gray-300">
-                <div class="flex items-center space-y-6">
-                    <div class="rounded-md bg-gray-50 p-2">
-                        <svg class="h-5 w-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                        </svg>
-                    </div>
-                    <div class="ml-2">
-                        <h2 class="text-sm font-medium text-gray-900">John Doe</h2>
-                        <p class="text-sm text-primary-600">Admin</p>
-                    </div>
+        <aside class="w-64 min-h-screen bg-gray-50">
+            <!-- Logo Section -->
+            <div class="p-6 flex items-center gap-2">
+                <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                    </svg>
                 </div>
-                
-                <!-- User Quick Actions -->
-                <div class="mt-6 space-y-6">
-                    <button class="flex items-center w-full rounded-md px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50">
-                        <svg class="h-5 w-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <span class="text-xl font-semibold text-gray-900">Inventory</span>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="mt-4 px-3 space-y-1">
+                <a href="#" class="flex items-center gap-3 px-3 py-2 bg-purple-50 rounded-lg text-purple-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                        </path>
+                    </svg>
+                    <span class="text-sm font-medium">Dashboard</span>
+                </a>
+
+                <a href="inventory.html" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4">
+                        </path>
+                    </svg>
+                    <span class="text-sm font-medium">Inventory</span>
+                </a>
+
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
+                        </path>
+                    </svg>
+                    <span class="text-sm font-medium">Sales Orders</span>
+                </a>
+
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                    </svg>
+                    <span class="text-sm font-medium">Products</span>
+                </a>
+
+                <!-- Settings at the bottom -->
+                <div class="fixed bottom-4 left-4">
+                    <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
-                        <span class="ml-2">Settings</span>
-                    </button>
-                    <button class="flex items-center w-full rounded-md px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50">
-                        <svg class="h-5 w-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                        </svg>
-                        <span class="ml-2">Logout</span>
+                        <span class="text-sm font-medium">Settings</span>
+                    </a>
+                </div>
+                <div>
+                    <button type="button" class="btn-primary" id="addItemBtn">
+                        Add New Item
                     </button>
                 </div>
-            </div>
-                <!-- Navigation -->
-                <nav class="mt-8 space-y-6">
-                    <a href="#" class="flex items-center rounded-md bg-gray-50 px-4 py-2 text-sm font-medium text-gray-900">
-                        <svg class="h-5 w-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                        </svg>
-                        <span class="ml-2">Dashboard</span>
-                    </a>
-                    <a href="#" class="flex items-center rounded-md px-4 py-2 text-sm font-medium text-primary-600 hover:text-primary-500">
-                        <svg class="h-5 w-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
-                        </svg>
-                        <span class="ml-2">Products</span>
-                    </a>
-                </nav>
-            </div>
+            </nav>
         </aside>
 
         <!-- Main Content -->
         <main class="flex-1">
-            <!-- Top Bar -->
-            <div class="bg-white border-gray-300 border-t-0">
-                <div class="px-4 py-12 sm:px-6 lg:px-8">
-                    <div class="flex justify-between items-center">
-                        <div class="flex-1 max-w-md">
-                            <div class="relative">
-                                <input type="text" class="input-field" placeholder="Search products...">
+            <!-- Top Navigation Bar -->
+            <div class="bg-white border-b border-gray-200">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <!-- Search Bar -->
+                    <div class="flex-1 max-w-2xl">
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
                             </div>
-                        </div>
-                        <div>
-                            <button type="button" class="btn-primary" id="addItemBtn">
-                                Add New Item
-                            </button>
+                            <input type="text"
+                                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                placeholder="Search...">
                         </div>
                     </div>
+
+                    <!-- Right Side Icons/User -->
+                    <div class="flex items-center space-x-4">
+                        <!-- Notification Bell -->
+                        <button class="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
+                                </path>
+                            </svg>
+                            <span class="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-500"></span>
+                        </button>
+
+                        <!-- User Profile -->
+                        <div class="flex items-center space-x-2">
+                            <img src="" alt="User avatar" class="w-8 h-8 rounded-full">
+                            <div class="flex items-center space-x-1 cursor-pointer hover:bg-gray-100 rounded-lg p-2">
+                                <span class="text-sm font-medium text-gray-700">admin</span>
+                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Welcome Message -->
+                <div class="px-6 pb-4">
+                    <h1 class="text-2xl font-semibold text-gray-900">Morning, admin!</h1>
+                    <p class="text-sm text-gray-500">Here's what's happening with your store today</p>
                 </div>
             </div>
             <!-- Dashboard Content -->
@@ -155,13 +210,13 @@
         <div class="flex items-center justify-center min-h-screen px-4">
             <div class="card max-w-md w-full">
                 <h2 class="text-center text-3xl font-extrabold text-gray-900">Add New Item</h2>
-                
+
                 <form class="mt-8 space-y-6">
                     <div>
                         <label for="name" class="text-sm font-medium text-gray-900">Product Name</label>
                         <input type="text" id="name" class="input-field mt-6" required>
                     </div>
-                    
+
                     <div>
                         <label for="category" class="text-sm font-medium text-gray-900">Category</label>
                         <select id="category" class="input-field mt-6" required>
@@ -171,12 +226,12 @@
                             <option value="food">Food</option>
                         </select>
                     </div>
-                    
+
                     <div>
                         <label for="stock" class="text-sm font-medium text-gray-900">Stock</label>
                         <input type="number" id="stock" class="input-field mt-6" required>
                     </div>
-                    
+
                     <div>
                         <label for="price" class="text-sm font-medium text-gray-900">Price</label>
                         <input type="number" id="price" step="0.01" class="input-field mt-6" required>
@@ -213,4 +268,5 @@
         });
     </script>
 </body>
+
 </html>
