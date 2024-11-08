@@ -29,7 +29,7 @@
         <div id="sidebar"
             class="fixed inset-y-0 left-0 transform -translate-x-full lg:relative lg:translate-x-0 transition duration-200 ease-in-out lg:w-64 bg-white shadow-lg z-40">
             <div class="flex items-center p-4 border-b">
-                <div class="text-xl font-bold text-indigo-600">Inventory</div>
+                <div class="text-xl font-bold  text-indigo-600">Inventory</div>
                 <button id="closeSidebar" class="ml-auto lg:hidden p-2">
                     <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
@@ -47,7 +47,7 @@
                             d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
                         </path>
                     </svg>
-                    <span>Dashboard</span>
+                    <span class="ml-2">Dashboard</span>
                 </a>
                 <a href="inventory.html" class="flex items-center p-3 text-gray-600 hover:bg-gray-50 rounded-lg">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -55,7 +55,7 @@
                             d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4">
                         </path>
                     </svg>
-                    <span>Inventory</span>
+                    <span class="ml-2">Inventory</span>
                 </a>
 
                 <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-gray-50 rounded-lg">
@@ -64,7 +64,7 @@
                             d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
                         </path>
                     </svg>
-                    <span>Sales</span>
+                    <span class="ml-2">Sales</span>
                 </a>
 
 
@@ -91,12 +91,6 @@
                         </div>
                    
                         <div class="flex items-center space-x-4">
-                            <svg class=" mr-2 right-3 top- text-gray-400" xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
                             <button class="p-2 text-gray-400 hover:text-gray-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"
@@ -126,10 +120,10 @@
                                 <div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10"
                                     id="userMenu">
                                     <a href="#"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-300">Profile</a>
                                     <a href="#"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-300">Settings</a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-300"
                                         id="logoutButton">Logout</a>
                                 </div>
                             </div>
@@ -196,7 +190,7 @@
                     </div>
                     <button id="addItemButton"
                         class="w-full sm:w-auto bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
-                        </i>Add New Item
+                        Add New Item
                     </button>
                 </div>
 
@@ -209,7 +203,7 @@
     </div>
 
     <!-- Add/Edit Item Modal -->
-    <div id="itemModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+    <div id="itemModal" class="hidden fixed inset-0  bg-opacity-50 overflow-y-auto z-50">
         <div
             class="relative top-20 mx-auto p-4 lg:p-5 border w-full max-w-sm lg:max-w-md shadow-lg rounded-md bg-white">
             <div class="mt-3">
@@ -217,18 +211,18 @@
                 <form id="itemForm" class="space-y-4">
                     <input type="hidden" id="itemId">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Name</label>
+                        <label class="mt-3 block text-sm font-medium text-gray-700">Name</label>
                         <input type="text" id="itemName" name="name" required
                             class="mt-1 block w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Description</label>
+                        <label class="mt-3 block text-sm font-medium text-gray-700">Description</label>
                         <textarea id="itemDescription" name="description" rows="3"
                             class="mt-1 block w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2"></textarea>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Category</label>
+                            <label class="mt-3 block text-sm font-medium text-gray-700">Category</label>
                             <select id="itemCategory" name="category" required
                                 class="mt-1 block w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2">
                                 <option value="electronics">Electronics</option>
@@ -239,30 +233,30 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Stock</label>
+                            <label class="mt-3 block text-sm font-medium text-gray-700">Stock</label>
                             <input type="number" id="itemStock" name="stock" required min="0"
                                 class="mt-1 block w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2">
                         </div>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Price</label>
+                            <label class="mt-3 block text-sm font-medium text-gray-700">Price</label>
                             <input type="number" id="itemPrice" name="price" required min="0" step="0.01"
                                 class="mt-1 block w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2">
                         </div>
             
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Max Limit</label>
+                            <label class="mt-3 block text-sm font-medium text-gray-700">Max Limit</label>
                             <input type="number" id="itemMaxLimit" name="maxLimit" required min="0"
                                 class="mt-1 block w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Batch</label>
+                            <label class="mt-3 block text-sm font-medium text-gray-700">Batch</label>
                             <input type="number" id="itemPrice" name="price" required min="0" step="0.01"
                                 class="mt-1 block w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2">
                         </div>
                     </div>
-                    <div class="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3 pt-4">
+                    <div class="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3 pt-4 mt-3">
                         <button type="button" id="cancelButton"
                             class="w-full sm:w-auto px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
                             Cancel
