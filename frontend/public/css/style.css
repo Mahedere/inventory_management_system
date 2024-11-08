@@ -1662,3 +1662,9 @@ select {
 .mt-3 {
   margin-top: 0.75rem /* 12px */;
 }
+.ml-2 {
+  margin-left: 0.5rem /* 8px */;
+}
+.mt-6 {
+  margin-top: 1.5rem /* 24px */;
+}
