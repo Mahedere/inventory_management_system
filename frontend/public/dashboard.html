@@ -15,7 +15,12 @@
     <!-- Mobile Menu Button -->
     <div class="lg:hidden fixed top-4 left-4 z-50">
         <button id="mobileMenuButton" class="p-2 rounded-lg bg-white shadow-lg">
-            <i class="fas fa-bars"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
         </button>
     </div>
 
@@ -26,30 +31,38 @@
             <div class="flex items-center p-4 border-b">
                 <div class="text-xl font-bold text-indigo-600">Inventory</div>
                 <button id="closeSidebar" class="ml-auto lg:hidden p-2">
-                    <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
-                
+
             </div>
 
             <nav class="p-4 space-y-2">
                 <a href="#" class="flex items-center p-3 text-indigo-600 bg-indigo-50 rounded-lg">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                        </path>
                     </svg>
                     <span>Dashboard</span>
                 </a>
                 <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-gray-50 rounded-lg">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4">
+                        </path>
                     </svg>
                     <span>Inventory</span>
                 </a>
 
                 <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-gray-50 rounded-lg">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
+                        </path>
                     </svg>
                     <span>Sales</span>
                 </a>
@@ -74,18 +87,38 @@
                             <input type="text" placeholder="Search..."
                                 class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 id="searchInput">
-                            <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+                            <svg class="absolute right-3 top-3 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+                                width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
                         </div>
                         <div class="flex items-center space-x-4">
                             <button class="p-2 text-gray-400 hover:text-gray-600">
-                                <i class="fas fa-bell"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0">
+                                    </path>
+                                </svg>
                             </button>
                             <div class="relative" id="userMenuContainer">
                                 <button class="flex items-center space-x-2" id="userMenuButton">
                                     <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-                                        <i class="fas fa-user text-gray-600"></i>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                        </svg>
                                     </div>
-                                    <i class="fas fa-chevron-down text-gray-600"></i>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M6 9l6 6 6-6" />
+                                    </svg>
                                 </button>
                                 <!-- User Dropdown Menu -->
                                 <div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10"
@@ -161,7 +194,7 @@
                     </div>
                     <button id="addItemButton"
                         class="w-full sm:w-auto bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
-                        <i class="fas fa-plus mr-2"></i>Add New Item
+                        </i>Add New Item
                     </button>
                 </div>
 
@@ -215,9 +248,15 @@
                             <input type="number" id="itemPrice" name="price" required min="0" step="0.01"
                                 class="mt-1 block w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2">
                         </div>
+            
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Max Limit</label>
                             <input type="number" id="itemMaxLimit" name="maxLimit" required min="0"
+                                class="mt-1 block w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Batch</label>
+                            <input type="number" id="itemPrice" name="price" required min="0" step="0.01"
                                 class="mt-1 block w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2">
                         </div>
                     </div>
@@ -246,10 +285,21 @@
                 </div>
                 <div class="flex space-x-2">
                     <button class="edit-button text-gray-400 hover:text-indigo-600">
-                        <i class="fas fa-edit"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path>
+                            <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>
+                        </svg>
                     </button>
                     <button class="delete-button text-gray-400 hover:text-red-600">
-                        <i class="fas fa-trash"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                            </path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                        </svg>
                     </button>
                 </div>
             </div>
@@ -484,8 +534,8 @@
                 const stockBar = card.querySelector('.stock-bar');
                 stockBar.style.width = `${percentage}%`;
                 stockBar.className = `stock-bar h-full ${percentage < 20 ? 'bg-red-500' :
-                        percentage < 50 ? 'bg-yellow-500' :
-                            'bg-green-500'
+                    percentage < 50 ? 'bg-yellow-500' :
+                        'bg-green-500'
                     }`;
 
                 const editButton = card.querySelector('.edit-button');
