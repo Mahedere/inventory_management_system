@@ -9,231 +9,573 @@
 </head>
 
 <body class="bg-gray-50">
-    <!-- Main Layout -->
-    <div class="h-screen flex">
-        <!-- Sidebar -->
-        <aside class="w-72 bg-white border-r border-gray-200 shadow-lg">
-            <div class="p-6">
-                <div class="flex items-center space-x-3 mb-8">
-                    <div
-                        class="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                        </svg>
-                    </div>
-                    <span
-                        class="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Inventory</span>
-                </div>
+    <!-- Notification Component -->
+    <div id="notification" class="hidden fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg"></div>
 
-                <nav class="space-y-1">
-                    <a href="#"
-                        class="flex items-center px-4 py-3 text-blue-600 bg-blue-50 rounded-lg font-medium transition-all duration-200">
-                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
-                            </path>
-                        </svg>
-                        Dashboard
-                    </a>
-                    <a href="#"
-                        class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-all duration-200">
-                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
-                            </path>
-                        </svg>
-                        Products
-                    </a>
-                    <a href="#"
-                        class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-all duration-200">
-                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                        </svg>
-                        Orders
-                    </a>
-                    <a href="#"
-                        class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-all duration-200">
-                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
-                            </path>
-                        </svg>
-                        Analytics
-                    </a>
-                </nav>
-
-                <!-- Quick Actions -->
-                <div class="mt-8">
-                    <h3 class="text-sm font-semibold text-gray-500 px-4 mb-3">QUICK ACTIONS</h3>
-                    <button
-                        class="w-full px-4 py-3 text-left text-sm font-medium text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors duration-200">
-                        + Add New Product
-                    </button>
-                    <button
-                        class="w-full px-4 py-3 text-left text-sm font-medium text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors duration-200">
-                        + Create Purchase Order
-                    </button>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="flex-1 overflow-auto">
-            <div class="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <h1 class="text-2xl font-bold text-gray-800">Inventory Overview</h1>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <div class="relative">
-                        <input type="text" placeholder="Search inventory..." 
-                               class="w-64 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200">
-                        <svg class="w-5 h-5 text-gray-400 absolute right-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                    </div>
-                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200">
-                        <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-                        </svg>
-                    </button>
-                    <div class="flex items-center space-x-3">
-                        <img src="/api/placeholder/32/32" alt="User avatar" class="w-8 h-8 rounded-full">
-                        <span class="font-medium text-gray-700">John Doe</span>
-                    </div>
-                </div>
-            </div>
-            <!-- Dashboard Content -->
-            <div class="px-4 py-12 sm:px-6 lg:px-8 space-y-8">
-                <!-- Stats Grid -->
-                <div class="space-y-6">
-                    <div class="card">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                            <div>
-                                <h3 class="text-sm font-medium text-gray-900">Total Items</h3>
-                                <p class="mt-6 text-3xl font-extrabold">1,294</p>
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-medium text-gray-900">Low Stock</h3>
-                                <p class="mt-6 text-3xl font-extrabold">23</p>
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-medium text-gray-900">Out of Stock</h3>
-                                <p class="mt-6 text-3xl font-extrabold">12</p>
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-medium text-gray-900">Categories</h3>
-                                <p class="mt-6 text-3xl font-extrabold">8</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Products Table -->
-                <div class="card">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-sm font-medium text-gray-900">Inventory Items</h2>
-                        <div class="flex space-y-6">
-                            <button type="button" class="btn-primary">Filter</button>
-                        </div>
-                    </div>
-
-                    <div class="overflow-x-auto">
-                        <table class="w-full">
-                            <thead>
-                                <tr>
-                                    <th class="text-sm font-medium text-gray-900 px-4 py-2 text-left">Name</th>
-                                    <th class="text-sm font-medium text-gray-900 px-4 py-2 text-left">Category</th>
-                                    <th class="text-sm font-medium text-gray-900 px-4 py-2 text-left">Stock</th>
-                                    <th class="text-sm font-medium text-gray-900 px-4 py-2 text-left">Price</th>
-                                    <th class="text-sm font-medium text-gray-900 px-4 py-2 text-left">Status</th>
-                                    <th class="text-sm font-medium text-gray-900 px-4 py-2 text-left">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="space-y-6">
-                                <tr>
-                                    <td class="px-4 py-2">Laptop Pro</td>
-                                    <td class="px-4 py-2">Electronics</td>
-                                    <td class="px-4 py-2">45</td>
-                                    <td class="px-4 py-2">$999.99</td>
-                                    <td class="px-4 py-2">
-                                        <span class="rounded bg-gray-50 px-2 py-1 text-sm font-medium text-gray-900">
-                                            In Stock
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-2">
-                                        <button class="text-primary-600 hover:text-primary-500">Edit</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </main>
+    <!-- Mobile Menu Button -->
+    <div class="lg:hidden fixed top-4 left-4 z-50">
+        <button id="mobileMenuButton" class="p-2 rounded-lg bg-white shadow-lg">
+            <i class="fas fa-bars"></i>
+        </button>
     </div>
-    <!-- Add Item Modal -->
-    <div class="hidden fixed inset-0 bg-gray-50 bg-opacity-75" id="addItemModal">
-        <div class="flex items-center justify-center min-h-screen px-4">
-            <div class="card max-w-md w-full">
-                <h2 class="text-center text-3xl font-extrabold text-gray-900">Add New Item</h2>
 
-                <form class="mt-8 space-y-6">
-                    <div>
-                        <label for="name" class="text-sm font-medium text-gray-900">Product Name</label>
-                        <input type="text" id="name" class="input-field mt-6" required>
+    <div class="flex h-screen">
+        <!-- Sidebar Navigation - Hidden on mobile by default -->
+        <div id="sidebar"
+            class="fixed inset-y-0 left-0 transform -translate-x-full lg:relative lg:translate-x-0 transition duration-200 ease-in-out lg:w-64 bg-white shadow-lg z-40">
+            <div class="flex items-center p-4 border-b">
+                <div class="text-xl font-bold text-indigo-600">Inventory</div>
+                <button id="closeSidebar" class="ml-auto lg:hidden p-2">
+                    <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                
+            </div>
+
+            <nav class="p-4 space-y-2">
+                <a href="#" class="flex items-center p-3 text-indigo-600 bg-indigo-50 rounded-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-gray-50 rounded-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                    </svg>
+                    <span>Inventory</span>
+                </a>
+
+                <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-gray-50 rounded-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                    </svg>
+                    <span>Sales</span>
+                </a>
+
+
+            </nav>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Navigation Bar -->
+            <header class="bg-white border-b px-4 lg:px-6 py-4">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+                    <div class="flex-1 ml-12 lg:ml-0">
+                        <h1 class="text-xl lg:text-2xl font-semibold text-gray-900">Morning, <span
+                                id="userName">User</span>!</h1>
+                        <p class="text-sm text-gray-500">Here's what's happening with your store today.</p>
+                    </div>
+                    <div
+                        class="flex flex-col lg:flex-row items-start lg:items-center space-y-4 lg:space-y-0 lg:space-x-4">
+                        <div class="relative w-full lg:w-64">
+                            <input type="text" placeholder="Search..."
+                                class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                id="searchInput">
+                            <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <button class="p-2 text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-bell"></i>
+                            </button>
+                            <div class="relative" id="userMenuContainer">
+                                <button class="flex items-center space-x-2" id="userMenuButton">
+                                    <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                                        <i class="fas fa-user text-gray-600"></i>
+                                    </div>
+                                    <i class="fas fa-chevron-down text-gray-600"></i>
+                                </button>
+                                <!-- User Dropdown Menu -->
+                                <div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10"
+                                    id="userMenu">
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        id="logoutButton">Logout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content Scroll Area -->
+            <main class="flex-1 overflow-y-auto p-4 lg:p-6">
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6">
+                    <div class="bg-white p-4 lg:p-6 rounded-lg shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-gray-500">Total Items</span>
+                            <span class="text-green-500 text-sm">↑ 12%</span>
+                        </div>
+                        <div class="text-2xl font-semibold" id="totalItems">0</div>
+                        <div class="text-sm text-gray-500">From last month</div>
                     </div>
 
-                    <div>
-                        <label for="category" class="text-sm font-medium text-gray-900">Category</label>
-                        <select id="category" class="input-field mt-6" required>
-                            <option value="">Select a category</option>
-                            <option value="electronics">Electronics</option>
-                            <option value="clothing">Clothing</option>
-                            <option value="food">Food</option>
+                    <div class="bg-white p-4 lg:p-6 rounded-lg shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-gray-500">Low Stock Items</span>
+                            <span class="text-red-500 text-sm">↓ 2%</span>
+                        </div>
+                        <div class="text-2xl font-semibold" id="lowStockItems">0</div>
+                        <div class="text-sm text-gray-500">Needs attention</div>
+                    </div>
+
+                    <div class="bg-white p-4 lg:p-6 rounded-lg shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-gray-500">Total Categories</span>
+                            <span class="text-green-500 text-sm">↑ 5%</span>
+                        </div>
+                        <div class="text-2xl font-semibold" id="totalCategories">0</div>
+                        <div class="text-sm text-gray-500">Active categories</div>
+                    </div>
+
+                    <div class="bg-white p-4 lg:p-6 rounded-lg shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-gray-500">Total Value</span>
+                            <span class="text-green-500 text-sm">↑ 8%</span>
+                        </div>
+                        <div class="text-2xl font-semibold" id="totalValue">$0</div>
+                        <div class="text-sm text-gray-500">Inventory worth</div>
+                    </div>
+                </div>
+
+                <!-- Control Bar -->
+                <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center space-y-4 lg:space-y-0 mb-6">
+                    <div
+                        class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <select id="categoryFilter"
+                            class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="">All Categories</option>
+                        </select>
+                        <select id="sortBy"
+                            class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="name">Sort by Name</option>
+                            <option value="stock">Sort by Stock</option>
+                            <option value="price">Sort by Price</option>
                         </select>
                     </div>
+                    <button id="addItemButton"
+                        class="w-full sm:w-auto bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
+                        <i class="fas fa-plus mr-2"></i>Add New Item
+                    </button>
+                </div>
 
+                <!-- Items Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6" id="itemsGrid">
+                    <!-- Items will be dynamically inserted here -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add/Edit Item Modal -->
+    <div id="itemModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div
+            class="relative top-20 mx-auto p-4 lg:p-5 border w-full max-w-sm lg:max-w-md shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <h3 class="text-lg font-medium text-gray-900 mb-4" id="modalTitle">Add New Item</h3>
+                <form id="itemForm" class="space-y-4">
+                    <input type="hidden" id="itemId">
                     <div>
-                        <label for="stock" class="text-sm font-medium text-gray-900">Stock</label>
-                        <input type="number" id="stock" class="input-field mt-6" required>
+                        <label class="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" id="itemName" name="name" required
+                            class="mt-1 block w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2">
                     </div>
-
                     <div>
-                        <label for="price" class="text-sm font-medium text-gray-900">Price</label>
-                        <input type="number" id="price" step="0.01" class="input-field mt-6" required>
+                        <label class="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea id="itemDescription" name="description" rows="3"
+                            class="mt-1 block w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2"></textarea>
                     </div>
-
-                    <div class="flex space-y-6">
-                        <button type="button" class="btn-primary" id="closeModalBtn">Cancel</button>
-                        <button type="submit" class="btn-primary">Add Item</button>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Category</label>
+                            <select id="itemCategory" name="category" required
+                                class="mt-1 block w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2">
+                                <option value="electronics">Electronics</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="furniture">Furniture</option>
+                                <option value="books">Books</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Stock</label>
+                            <input type="number" id="itemStock" name="stock" required min="0"
+                                class="mt-1 block w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Price</label>
+                            <input type="number" id="itemPrice" name="price" required min="0" step="0.01"
+                                class="mt-1 block w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Max Limit</label>
+                            <input type="number" id="itemMaxLimit" name="maxLimit" required min="0"
+                                class="mt-1 block w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2">
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3 pt-4">
+                        <button type="button" id="cancelButton"
+                            class="w-full sm:w-auto px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                            class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                            Save Item
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
+    <!-- Item Card Template -->
+    <template id="itemCardTemplate">
+        <div class="bg-white rounded-lg shadow-sm p-4 lg:p-6">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 class="text-lg font-medium text-gray-900 item-name"></h3>
+                    <p class="text-sm text-gray-500 item-category"></p>
+                </div>
+                <div class="flex space-x-2">
+                    <button class="edit-button text-gray-400 hover:text-indigo-600">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete-button text-gray-400 hover:text-red-600">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            <p class="text-sm text-gray-600 mb-4 item-description"></p>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <p class="text-sm text-gray-500">Stock Level</p>
+                    <p class="font-medium item-stock"></p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Price</p>
+                    <p class="font-medium item-price"></p>
+                </div>
+            </div>
+            <div class="relative pt-1">
+                <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-100">
+                    <div
+                        class="stock-bar shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
     <script>
-        // Modal functionality
-        const modal = document.getElementById('addItemModal');
-        const addButton = document.getElementById('addItemBtn');
-        const closeButton = document.getElementById('closeModalBtn');
+        // Utility Functions
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg ${type === 'success' ? 'bg-green-500' : 'bg-red-500'
+                } text-white`;
+            notification.classList.remove('hidden');
+            setTimeout(() => notification.classList.add('hidden'), 3000);
+        }
 
-        addButton.addEventListener('click', () => {
+        function formatPrice(price) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(price);
+        }
+
+        // Modal Functions
+        function openModal(isEdit = false) {
+            const modal = document.getElementById('itemModal');
+            const modalTitle = document.getElementById('modalTitle');
+            modalTitle.textContent = isEdit ? 'Edit Item' : 'Add New Item';
             modal.classList.remove('hidden');
-        });
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
 
-        closeButton.addEventListener('click', () => {
+        function closeModal() {
+            const modal = document.getElementById('itemModal');
             modal.classList.add('hidden');
-        });
+            document.getElementById('itemForm').reset();
+            document.getElementById('itemId').value = '';
+            document.body.style.overflow = ''; // Restore scrolling
+        }
 
-        // Close modal when clicking outside
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.add('hidden');
+        // Mobile Menu Functions
+        function initializeMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const closeSidebarButton = document.getElementById('closeSidebar');
+
+            // Create and append overlay if it doesn't exist
+            let overlay = document.getElementById('sidebarOverlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.id = 'sidebarOverlay';
+                overlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-30 hidden transition-opacity duration-300';
+                document.body.appendChild(overlay);
+            }
+
+            function openSidebar() {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeSidebar() {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+
+            // Add event listeners
+            mobileMenuButton.addEventListener('click', openSidebar);
+            closeSidebarButton.addEventListener('click', closeSidebar);
+            overlay.addEventListener('click', closeSidebar);
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 1024) {
+                    closeSidebar();
+                }
+            });
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize mobile menu
+            initializeMobileMenu();
+
+            // Set up modal triggers
+            const addItemButton = document.getElementById('addItemButton');
+            const cancelButton = document.getElementById('cancelButton');
+            const itemForm = document.getElementById('itemForm');
+
+            addItemButton.addEventListener('click', () => openModal(false));
+            cancelButton.addEventListener('click', closeModal);
+
+            // Handle form submission
+            itemForm.addEventListener('submit', handleFormSubmit);
+
+            // Setup user menu
+            const userMenuButton = document.getElementById('userMenuButton');
+            const userMenu = document.getElementById('userMenu');
+
+            userMenuButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                userMenu.classList.toggle('hidden');
+            });
+
+            // Close user menu when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!event.target.closest('#userMenuContainer')) {
+                    userMenu.classList.add('hidden');
+                }
+            });
+
+            // Setup logout
+            document.getElementById('logoutButton').addEventListener('click', () => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('userData');
+                window.location.href = '/login.html';
+            });
+
+            // Load initial data
+            loadItems();
+
+            // Setup search and filter
+            setupSearchAndFilter();
+
+            // Set user name
+            const userData = localStorage.getItem('userData');
+            if (userData) {
+                try {
+                    const parsedUserData = JSON.parse(userData);
+                    document.getElementById('userName').textContent = parsedUserData.name;
+                } catch (e) {
+                    console.error('Error parsing user data:', e);
+                }
             }
         });
+
+        // Form Handling
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const itemData = Object.fromEntries(formData.entries());
+            const itemId = document.getElementById('itemId').value;
+
+            try {
+                const url = itemId ? `/api/items/${itemId}` : '/api/items';
+                const method = itemId ? 'PATCH' : 'POST';
+
+                const response = await fetch(url, {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify(itemData)
+                });
+
+                if (response.ok) {
+                    closeModal();
+                    loadItems();
+                    showNotification(`Item ${itemId ? 'updated' : 'added'} successfully`);
+                } else {
+                    throw new Error('Operation failed');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification(`Error ${itemId ? 'updating' : 'adding'} item`, 'error');
+            }
+        }
+
+        // Mock data for testing
+        const mockItems = [
+            {
+                _id: '1',
+                name: 'Test Item 1',
+                description: 'This is a test item',
+                category: 'electronics',
+                stock: 50,
+                maxLimit: 100,
+                price: 99.99
+            },
+            // Add more mock items as needed
+        ];
+
+        // Mock loadItems function
+        async function loadItems() {
+            try {
+                // In a real application, this would be an API call
+                // For now, we'll use mock data
+                renderItems(mockItems);
+                updateDashboardStats(mockItems);
+            } catch (error) {
+                console.error('Error loading items:', error);
+                showNotification('Error loading items', 'error');
+            }
+        }
+
+        function renderItems(items) {
+            const grid = document.getElementById('itemsGrid');
+            const template = document.getElementById('itemCardTemplate');
+            grid.innerHTML = '';
+
+            items.forEach(item => {
+                const card = template.content.cloneNode(true);
+
+                card.querySelector('.item-name').textContent = item.name;
+                card.querySelector('.item-category').textContent = item.category;
+                card.querySelector('.item-description').textContent = item.description;
+                card.querySelector('.item-stock').textContent = item.stock;
+                card.querySelector('.item-price').textContent = formatPrice(item.price);
+
+                const percentage = (item.stock / item.maxLimit) * 100;
+                const stockBar = card.querySelector('.stock-bar');
+                stockBar.style.width = `${percentage}%`;
+                stockBar.className = `stock-bar h-full ${percentage < 20 ? 'bg-red-500' :
+                        percentage < 50 ? 'bg-yellow-500' :
+                            'bg-green-500'
+                    }`;
+
+                const editButton = card.querySelector('.edit-button');
+                const deleteButton = card.querySelector('.delete-button');
+
+                editButton.addEventListener('click', () => editItem(item));
+                deleteButton.addEventListener('click', () => deleteItem(item._id));
+
+                grid.appendChild(card);
+            });
+        }
+
+        function updateDashboardStats(items) {
+            document.getElementById('totalItems').textContent = items.length;
+            document.getElementById('lowStockItems').textContent = items.filter(item =>
+                (item.stock / item.maxLimit) < 0.2
+            ).length;
+            document.getElementById('totalCategories').textContent =
+                new Set(items.map(item => item.category)).size;
+            document.getElementById('totalValue').textContent = formatPrice(
+                items.reduce((total, item) => total + (item.price * item.stock), 0)
+            );
+        }
+
+        function setupSearchAndFilter() {
+            const searchInput = document.getElementById('searchInput');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const sortBy = document.getElementById('sortBy');
+
+            const handleChange = () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                const category = categoryFilter.value;
+                const sortByValue = sortBy.value;
+
+                let filteredItems = mockItems.filter(item => {
+                    const matchesSearch = item.name.toLowerCase().includes(searchTerm) ||
+                        item.description.toLowerCase().includes(searchTerm);
+                    const matchesCategory = !category || item.category === category;
+                    return matchesSearch && matchesCategory;
+                });
+
+                filteredItems.sort((a, b) => {
+                    switch (sortByValue) {
+                        case 'name':
+                            return a.name.localeCompare(b.name);
+                        case 'stock':
+                            return b.stock - a.stock;
+                        case 'price':
+                            return b.price - a.price;
+                        default:
+                            return 0;
+                    }
+                });
+
+                renderItems(filteredItems);
+            };
+
+            searchInput.addEventListener('input', handleChange);
+            categoryFilter.addEventListener('change', handleChange);
+            sortBy.addEventListener('change', handleChange);
+        }
+
+        function editItem(item) {
+            document.getElementById('itemId').value = item._id;
+            document.getElementById('itemName').value = item.name;
+            document.getElementById('itemDescription').value = item.description;
+            document.getElementById('itemCategory').value = item.category;
+            document.getElementById('itemStock').value = item.stock;
+            document.getElementById('itemPrice').value = item.price;
+            document.getElementById('itemMaxLimit').value = item.maxLimit;
+            openModal(true);
+        }
+
+        async function deleteItem(itemId) {
+            if (confirm('Are you sure you want to delete this item?')) {
+                try {
+                    // In a real application, this would be an API call
+                    // For now, we'll just remove it from our mock data
+                    const index = mockItems.findIndex(item => item._id === itemId);
+                    if (index !== -1) {
+                        mockItems.splice(index, 1);
+                        loadItems();
+                        showNotification('Item deleted successfully');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showNotification('Error deleting item', 'error');
+                }
+            }
+        }
     </script>
 </body>
 
