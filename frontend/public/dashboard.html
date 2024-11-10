@@ -13,7 +13,7 @@
     <div id="notification" class="hidden fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg"></div>
 
     <!-- Mobile Menu Button -->
-    <div class="lg:hidden fixed top-4 left-4 z-50">
+    <div class="lg:hidden fixed top-4 left-4 z-80">
         <button id="mobileMenuButton" class="p-2 rounded-lg bg-white shadow-lg">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -175,24 +175,27 @@
 
                 <!-- Control Bar -->
                 <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center space-y-4 lg:space-y-0 mb-6">
-                    <div
-                        class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                        <select id="categoryFilter"
-                            class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <option value="">All Categories</option>
-                        </select>
-                        <select id="sortBy"
-                            class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <option value="name">Sort by Name</option>
-                            <option value="stock">Sort by Stock</option>
-                            <option value="price">Sort by Price</option>
-                        </select>
-                    </div>
-                    <button id="addItemButton"
-                        class="w-full sm:w-auto bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
-                        Add New Item
-                    </button>
-                </div>
+    <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+        <div class="relative">
+            <select id="categoryFilter"
+                class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 appearance-none pr-10">
+                <option value="">All Categories</option>
+            </select>
+        </div>
+        <div class="relative">
+            <select id="sortBy"
+                class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 appearance-none pr-10">
+                <option value="name">Sort by Name</option>
+                <option value="stock">Sort by Stock</option>
+                <option value="price">Sort by Price</option>
+            </select>
+        </div>
+    </div>
+    <button id="addItemButton"
+        class="w-full sm:w-auto bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
+        Add New Item
+    </button>
+</div>
 
                 <!-- Items Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6" id="itemsGrid">
