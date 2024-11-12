@@ -87,9 +87,9 @@
                             <input type="text" placeholder="Search..."
                                 class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 id="searchInput">
-                               
+
                         </div>
-                   
+
                         <div class="flex items-center space-x-4">
                             <button class="p-2 text-gray-400 hover:text-gray-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -166,7 +166,7 @@
                     <div class="bg-white p-4 lg:p-6 rounded-lg shadow-sm">
                         <div class="flex justify-between items-start mb-4">
                             <span class="text-gray-500">Total Value</span>
-                            <span class="text-green-00 text-sm">↑ 8%</span>
+                            <span class="text-green-500 text-sm">↑ 8%</span>
                         </div>
                         <div class="text-2xl font-semibold" id="totalValue">$0</div>
                         <div class="text-sm text-gray-500">Inventory worth</div>
@@ -175,27 +175,33 @@
 
                 <!-- Control Bar -->
                 <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center space-y-4 lg:space-y-0 mb-6">
-    <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
-        <div class="relative">
-            <select id="categoryFilter"
-                class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 appearance-none pr-10">
-                <option value="">All Categories</option>
-            </select>
-        </div>
-        <div class="relative">
-            <select id="sortBy"
-                class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 appearance-none pr-10">
-                <option value="name">Sort by Name</option>
-                <option value="stock">Sort by Stock</option>
-                <option value="price">Sort by Price</option>
-            </select>
-        </div>
-    </div>
-    <button id="addItemButton"
-        class="w-full sm:w-auto bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
-        Add New Item
-    </button>
-</div>
+                    <div
+                        class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <div class="relative">
+                            <select id="categoryFilter"
+                                class="px-4 py-2 mr-2 rounded-lg border border-gray-300  focus:ring-2 focus:ring-indigo-500 appearance-none pr-10">
+                                <option value="">All Categories</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="furniture">Furniture</option>
+                                <option value="books">Books</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="relative">
+                            <select id="sortBy"
+                                class="px-4 py-2 rounded-lg border border-gray-300  focus:ring-2 focus:ring-indigo-500 appearance-none pr-10">
+                                <option class=" focus:ring-indigo-500" value="name">Sort by Name</option>
+                                <option value="stock">Sort by Stock</option>
+                                <option value="price">Sort by Price</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button id="addItemButton"
+                        class="w-full sm:w-auto bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
+                        Add New Item
+                    </button>
+                </div>
 
                 <!-- Items Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6" id="itemsGrid">
@@ -247,7 +253,7 @@
                             <input type="number" id="itemPrice" name="price" required min="0" step="0.01"
                                 class="mt-1 block w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2">
                         </div>
-            
+
                         <div>
                             <label class="mt-3 block text-sm font-medium text-gray-700">Max Limit</label>
                             <input type="number" id="itemMaxLimit" name="maxLimit" required min="0"
@@ -492,9 +498,27 @@
         const mockItems = [
             {
                 _id: '1',
-                name: 'Test Item 1',
+                name: 'Iphone',
                 description: 'This is a test item',
                 category: 'electronics',
+                stock: 50,
+                maxLimit: 40,
+                price: 99.99
+            },
+            {
+                _id: '2',
+                name: 'Shirt',
+                description: 'This is a test item',
+                category: 'clothing',
+                stock: 1,
+                maxLimit: 100,
+                price: 99.99
+            },
+            {
+                _id: '3',
+                name: 'Grape',
+                description: 'This is a test item',
+                category: 'other',
                 stock: 50,
                 maxLimit: 100,
                 price: 99.99

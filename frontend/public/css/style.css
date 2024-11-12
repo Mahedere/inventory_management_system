@@ -2307,3 +2307,27 @@ select {
   margin-bottom: 1rem /* 8px */;
 }
 
+.input-container {
+  position: relative;
+  width: 100%;
+}
+
+.input-field {
+  padding-right: 40px; 
+}
+
+.input-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px; 
+  transform: translateY(-50%);
+  cursor: pointer; 
+  pointer-events: auto; 
+}
+.text-red-600 {
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity)) /* #dc2626 */;
+}
+.mt-2 {
+  margin-top: 0.5rem /* 8px */;
+}
