@@ -16,7 +16,7 @@
                     Create a new account
                 </h2>
             </div>
-            <form id="registerForm" class="space-y-6">
+            <form id="registerForm" class="space-y-6" onsubmit="return checkPasswords()">
                 <div class="space-y-6">
                     <!-- Name Field -->
                     <div>
@@ -62,7 +62,7 @@
                             <circle cx="12" cy="12" r="3"></circle>
                         </svg>
                     </div>
-                    <div id="passwordError" class="text-red-600 hidden mt-2 text-sm">Passwords must match.</div>
+                    <div id="passwordError" class="text-red-600 hidden text-sm">Passwords must match.</div>
                     <div class="flex items-center justify-between mt-6">
                         <div class="flex items-center">
                             <input id="terms" name="terms" type="checkbox" required
@@ -127,12 +127,10 @@
             const passwordError = document.getElementById('passwordError');
 
             if (password !== confirmPassword) {
-                // Show error message if passwords do not match
                 passwordError.classList.remove('hidden');
+                return false;
             } else {
-                // Hide error message and proceed with registration
                 passwordError.classList.add('hidden');
-                // Here you can add your registration logic
                 alert('Passwords match! Proceeding with registration...');
             }
         }
