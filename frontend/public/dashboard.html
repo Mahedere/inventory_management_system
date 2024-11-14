@@ -9,9 +9,6 @@
 </head>
 
 <body class="bg-gray-50">
-    <!-- Notification Component -->
-    <div id="notification" class="hidden fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg"></div>
-
     <!-- Mobile Menu Button -->
     <div class="lg:hidden fixed top-4 left-4 z-80">
         <button id="mobileMenuButton" class="p-2 rounded-lg bg-white shadow-lg">
@@ -82,14 +79,7 @@
                         <p class="text-sm text-gray-500">Here's what's happening with your store today.</p>
                     </div>
                     <div
-                        class="flex flex-col lg:flex-row items-start lg:items-center space-y-4 lg:space-y-0 lg:space-x-4">
-                        <div class="relative w-full lg:w-64">
-                            <input type="text" placeholder="Search..."
-                                class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                id="searchInput">
-
-                        </div>
-
+                        class="flex flex-col lg:flex-row items-start lg:items-center space-y-4 lg:space-y-0 lg:space-x-4 ">
                         <div class="flex items-center space-x-4">
                             <button class="p-2 text-gray-400 hover:text-gray-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -120,10 +110,10 @@
                                 <div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10"
                                     id="userMenu">
                                     <a href="#"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-300">Profile</a>
+                                        class="block px-4 py-2 text-sm text-gray-700">Profile</a>
                                     <a href="#"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-300">Settings</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-300"
+                                        class="block px-4 py-2 text-sm text-gray-700">Settings</a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700"
                                         id="logoutButton">Logout</a>
                                 </div>
                             </div>
@@ -136,8 +126,8 @@
             <main class="flex-1 overflow-y-auto p-4 lg:p-6">
                 <!-- Stats Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6">
-                    <div class="bg-white p-4 lg:p-6 rounded-lg shadow-sm">
-                        <div class="flex justify-between items-start mb-4">
+                    <div class="bg-white  p-4 lg:p-6 rounded-lg shadow-sm">
+                        <div class="flex  justify-between items-start mb-4">
                             <span class="text-gray-500">Total Items</span>
                             <span class="text-green-500 text-sm">↑ 12%</span>
                         </div>
@@ -177,9 +167,16 @@
                 <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center space-y-4 lg:space-y-0 mb-6">
                     <div
                         class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                        <div class="relative">
+                        <div class="search-container mr-2">
+                            <input type="text" placeholder="Search..." id="searchInput" class="search-input">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </div>
+                        <div class="relative ">
                             <select id="categoryFilter"
-                                class="px-4 py-2 mr-2 rounded-lg border border-gray-300  focus:ring-2 focus:ring-indigo-500 appearance-none pr-10">
+                                class="px-4 py-2 mr-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 appearance-none pr-10">
                                 <option value="">All Categories</option>
                                 <option value="electronics">Electronics</option>
                                 <option value="clothing">Clothing</option>
@@ -188,7 +185,7 @@
                                 <option value="other">Other</option>
                             </select>
                         </div>
-                        <div class="relative">
+                        <div class="">
                             <select id="sortBy"
                                 class="px-4 py-2 rounded-lg border border-gray-300  focus:ring-2 focus:ring-indigo-500 appearance-none pr-10">
                                 <option class=" focus:ring-indigo-500" value="name">Sort by Name</option>
@@ -330,16 +327,6 @@
     </template>
 
     <script>
-        // Utility Functions
-        function showNotification(message, type = 'success') {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg ${type === 'success' ? 'bg-green-500' : 'bg-red-500'
-                } text-white`;
-            notification.classList.remove('hidden');
-            setTimeout(() => notification.classList.add('hidden'), 3000);
-        }
-
         function formatPrice(price) {
             return new Intl.NumberFormat('en-US', {
                 style: 'currency',
