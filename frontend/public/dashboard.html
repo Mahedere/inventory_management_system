@@ -164,15 +164,6 @@
                 <!-- Control Bar -->
                 <div class="flex flex-col space-y-4 mb-6 lg:flex-row lg:justify-between lg:items-center lg:space-y-0">
                     <div class="flex flex-col space-y-4 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-4">
-                        <div class="search-container mr-2">
-                            <input type="text" placeholder="Search..." id="searchInput" class="search-input">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                            </svg>
-                        </div>
                         <div class="relative">
                             <select id="categoryFilter"
                                 class="px-4 py-2 pr-10 mr-2 rounded-lg border border-gray-300 appearance-none focus:ring-2 focus:ring-indigo-500">
@@ -183,8 +174,6 @@
                                 <option value="books">Books</option>
                                 <option value="other">Other</option>
                             </select>
-                        </div>
-                        <div>
                             <select id="sortBy"
                                 class="px-4 py-2 pr-10 rounded-lg border border-gray-300 appearance-none focus:ring-2 focus:ring-indigo-500">
                                 <option value="name">Sort by Name</option>
@@ -193,8 +182,17 @@
                             </select>
                         </div>
                     </div>
+                    <div class="search-container mr-9 mt-2">
+                        <input type="text" placeholder="Search..." id="searchInput" class="search-input">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
                     <button id="addItemButton"
-                        class="w-full px-4 py-2 text-white bg-indigo-600 rounded-lg sm:w-auto hover:bg-indigo-700">
+                        class="w-full mt-2 px-4 py-2 text-white bg-indigo-600 rounded-lg sm:w-auto hover:bg-indigo-700">
                         Add New Item
                     </button>
                 </div>

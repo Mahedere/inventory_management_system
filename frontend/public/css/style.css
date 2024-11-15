@@ -2378,7 +2378,12 @@ select {
   .ml-15 {
     margin-left: 40rem; /* Generic margin for medium screens */
   }
+  
 }
 
-
-
+.mb-2 {
+  margin-bottom: 0.5rem /* 8px */;
+}
+.mr-9 {
+  margin-right: 58rem /* 36px */;
+}
