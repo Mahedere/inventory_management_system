@@ -2380,10 +2380,12 @@ select {
   }
   
 }
-
+.mr-1 {
+  margin-right: 0.25rem /* 4px */;
+}
 .mb-2 {
   margin-bottom: 0.5rem /* 8px */;
 }
 .mr-9 {
-  margin-right: 58rem /* 36px */;
+  margin-right: 20rem /* 36px */;
 }
