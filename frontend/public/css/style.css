@@ -2389,3 +2389,35 @@ select {
 .mr-9 {
   margin-right: 20rem /* 36px */;
 }
+@media (min-width: 640px) {
+  .sm\:grid-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.mt-4 {
+  margin-top: 1rem ;
+}
+.tracking-wider {
+  letter-spacing: 0.05em;
+}
+.min-w-full {
+  min-width: 100%;
+}
+.divide-y > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-y-reverse: 0;
+  border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
+  border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
+}
+.border-b {
+  border-bottom-width: 1px;
+}
+.border-gray-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity)) /* #e5e7eb */;
+}
+.overflow-x-auto {
+  overflow-x: auto;
+}
+.pt-4 {
+  padding-top: 1rem /* 16px */;
+}
