@@ -2363,3 +2363,22 @@ select {
   cursor: pointer;
 }
 
+.ml-15 {
+  margin-left: 15rem /* 96px */;
+}
+/* Small devices (phones) */
+@media (max-width: 480px) {
+  .ml-15 {
+    margin-left: 15rem; /* Generic margin for small screens */
+  }
+}
+
+/* Medium devices (tablets and smaller phones) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .ml-15 {
+    margin-left: 40rem; /* Generic margin for medium screens */
+  }
+}
+
+
+
