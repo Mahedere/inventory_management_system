@@ -19,9 +19,14 @@ import AuthLayout from '@/layouts/AuthLayout.vue'
 
 const route = useRoute()
 
-// Compute whether current route is an auth route (login/register)
+// Compute whether current route is an auth route
 const isAuthRoute = computed(() => {
-  return ['/login', '/register'].includes(route.path)
+  return [
+    '/login',
+    '/register',
+    '/forgot-password',
+    '/registration-success'
+  ].includes(route.path)
 })
 </script>
 

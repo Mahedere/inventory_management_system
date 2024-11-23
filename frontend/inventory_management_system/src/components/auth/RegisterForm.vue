@@ -172,7 +172,7 @@ const handleSubmit = async () => {
     });
 
     if (success) {
-      router.push('/dashboard');
+      router.push('/registration-success');
     }
   } catch (error) {
     if (error.inner) {

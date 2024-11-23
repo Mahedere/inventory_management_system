@@ -134,14 +134,16 @@ const handleSubmit = async () => {
     // Validate form
     await schema.validate(form, { abortEarly: false });
 
-    // Login user
-    const success = await authStore.login({
+    // Register user
+    const success = await authStore.register({
+      name: form.name,
       email: form.email,
-      password: form.password
+      password: form.password,
+      role: form.role
     });
 
     if (success) {
-      router.push('/dashboard');
+      router.push('/registration-success');
     }
   } catch (error) {
     if (error.inner) {
@@ -150,5 +152,4 @@ const handleSubmit = async () => {
       });
     }
   }
-};
-</script>`
+};</script>`

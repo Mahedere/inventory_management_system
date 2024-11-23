@@ -11,6 +11,12 @@ const router = createRouter({
       meta: { requiresGuest: true }
     },
     {
+      path: '/registration-success',
+      name: 'registration-success',
+      component: () => import('@/views/auth/RegistrationSuccessView.vue'),
+      meta: { requiresGuest: true }
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/auth/LoginView.vue'),
@@ -38,11 +44,16 @@ const router = createRouter({
 // Navigation guards
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
+    // Allow access to registration success page if coming from register page
+    if (to.name === 'registration-success' && from.name === 'register') {
+      next()
+      return
+    }
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next('/login')
-  } else if (to.meta.requiresGuest && authStore.isAuthenticated) {
-    next('/dashboard')
+  // } else if (to.meta.requiresGuest && authStore.isAuthenticated) {
+  //   next('/dashboard')
   } else {
     next()
   }
