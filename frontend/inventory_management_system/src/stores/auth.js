@@ -6,13 +6,13 @@ export const useAuthStore = defineStore('auth', {
     user: null,
     token: localStorage.getItem('token') || null,
     loading: false,
-    error: null
+    error: null,
   }),
 
   getters: {
     isAuthenticated: (state) => !!state.token,
     getUser: (state) => state.user,
-    getError: (state) => state.error
+    getError: (state) => state.error,
   },
 
   actions: {
@@ -21,18 +21,21 @@ export const useAuthStore = defineStore('auth', {
         this.loading = true;
         this.error = null;
 
-        const response = await axios.post('http://localhost:5000/api/auth/login', credentials);
+        const response = await axios.post(
+          'http://localhost:5000/api/auth/login',
+          credentials
+        );
 
         const { token, ...user } = response.data;
         this.token = token;
         this.user = user;
 
         localStorage.setItem('token', token);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Fixed backticks
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
         return true;
       } catch (error) {
-        this.error = error.response?.data?.message || 'Login failed';
+        this.error = error.response?.data?.message || 'Login failed'; 
         return false;
       } finally {
         this.loading = false;
@@ -44,18 +47,40 @@ export const useAuthStore = defineStore('auth', {
         this.loading = true;
         this.error = null;
 
-        const response = await axios.post('http://localhost:5000/api/auth/register', userData);
+        const response = await axios.post(
+          'http://localhost:5000/api/auth/register',
+          userData
+        );
 
         const { token, ...user } = response.data;
         this.token = token;
         this.user = user;
 
         localStorage.setItem('token', token);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Fixed backticks
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
         return true;
       } catch (error) {
         this.error = error.response?.data?.message || 'Registration failed';
+        return false;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async forgotPassword(email) {
+      try {
+        this.loading = true;
+        this.error = null;
+
+        await axios.post('http://localhost:5000/api/auth/forgot-password', {
+          email,
+        });
+
+        return true;
+      } catch (error) {
+        this.error =
+          error.response?.data?.message || 'Failed to send reset password email';
         return false;
       } finally {
         this.loading = false;
@@ -71,6 +96,6 @@ export const useAuthStore = defineStore('auth', {
 
     clearError() {
       this.error = null;
-    }
-  }
+    },
+  },
 });
