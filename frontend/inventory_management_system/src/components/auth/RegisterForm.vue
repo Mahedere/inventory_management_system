@@ -11,7 +11,7 @@
           class="input-field w-full rounded-md p-3 border border-indigo-600 focus:ring-indigo-500 focus:border-indigo-600"
           :class="{ 'border-red-500': errors.name }"
           placeholder="Full Name"
-        >
+        />
         <span v-if="errors.name" class="text-red-500 text-sm">{{ errors.name }}</span>
       </div>
 
@@ -25,7 +25,7 @@
           class="input-field w-full rounded-md p-3 border border-indigo-600 focus:ring-indigo-500 focus:border-indigo-600"
           :class="{ 'border-red-500': errors.email }"
           placeholder="Email address"
-        >
+        />
         <span v-if="errors.email" class="text-red-500 text-sm">{{ errors.email }}</span>
       </div>
 
@@ -39,10 +39,10 @@
           class="input-field w-full rounded-md p-3 border border-indigo-600 focus:ring-indigo-500 focus:border-indigo-600"
           :class="{ 'border-red-500': errors.password }"
           placeholder="Password"
-        >
+        />
         <button
           type="button"
-          @click="showPassword = !showPassword"
+          @click="togglePasswordVisibility"
           class="absolute right-3 top-1/2 transform -translate-y-1/2"
         >
           <span v-if="showPassword">🙈</span>
@@ -61,10 +61,10 @@
           class="input-field w-full rounded-md p-3 border border-indigo-600 focus:ring-indigo-500 focus:border-indigo-600"
           :class="{ 'border-red-500': errors.confirmPassword }"
           placeholder="Confirm Password"
-        >
+        />
         <button
           type="button"
-          @click="showConfirmPassword = !showConfirmPassword"
+          @click="toggleConfirmPasswordVisibility"
           class="absolute right-3 top-1/2 transform -translate-y-1/2"
         >
           <span v-if="showConfirmPassword">🙈</span>
@@ -80,13 +80,14 @@
           v-model="form.terms"
           type="checkbox"
           class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-        >
+        />
         <label for="terms" class="ml-2 block text-sm text-gray-900">
           I agree to the Terms and Conditions
         </label>
       </div>
       <span v-if="errors.terms" class="text-red-500 text-sm">{{ errors.terms }}</span>
-<!-- Submit Button -->
+
+      <!-- Submit Button -->
       <button
         type="submit"
         :disabled="authStore.loading"
@@ -95,8 +96,8 @@
         <span v-if="!authStore.loading">Register</span>
         <span v-else class="flex items-center">
           <svg class="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" />
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
           </svg>
           Processing...
         </span>
@@ -139,7 +140,7 @@ const form = reactive({
   password: '',
   confirmPassword: '',
   terms: false,
-  role: 'salesperson' // Default role
+  role: 'salesperson', // Default role
 });
 
 const schema = yup.object().shape({
@@ -152,23 +153,19 @@ const schema = yup.object().shape({
     .oneOf([yup.ref('password')], 'Passwords must match')
     .required('Please confirm your password'),
   terms: yup.boolean()
-    .oneOf([true], 'You must accept the terms and conditions')
+    .oneOf([true], 'You must accept the terms and conditions'),
 });
 
 const handleSubmit = async () => {
   try {
-    // Clear previous errors
-    Object.keys(errors).forEach(key => delete errors[key]);
-
-    // Validate form
+    Object.keys(errors).forEach((key) => delete errors[key]);
     await schema.validate(form, { abortEarly: false });
 
-    // Register user
     const success = await authStore.register({
       name: form.name,
       email: form.email,
       password: form.password,
-      role: form.role
+      role: form.role,
     });
 
     if (success) {
@@ -181,5 +178,13 @@ const handleSubmit = async () => {
       });
     }
   }
+};
+
+const togglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value;
+};
+
+const toggleConfirmPasswordVisibility = () => {
+  showConfirmPassword.value = !showConfirmPassword.value;
 };
 </script>

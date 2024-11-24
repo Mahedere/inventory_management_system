@@ -13,6 +13,7 @@ export const useAuthStore = defineStore('auth', {
     isAuthenticated: (state) => !!state.token,
     getUser: (state) => state.user,
     getError: (state) => state.error,
+    userRole: (state) => state.user?.role || null,
   },
 
   actions: {
@@ -27,16 +28,23 @@ export const useAuthStore = defineStore('auth', {
         );
 
         const { token, ...user } = response.data;
+
+        if (!user.role) {
+          throw new Error('Invalid user role');
+        }
+
         this.token = token;
         this.user = user;
 
         localStorage.setItem('token', token);
+        localStorage.setItem('userData', JSON.stringify(user));
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-        return true;
+        return { success: true };
       } catch (error) {
-        this.error = error.response?.data?.message || 'Login failed'; 
-        return false;
+        console.error('Login error:', error);
+        this.error = error.response?.data?.message || 'Login failed';
+        return { success: false };
       } finally {
         this.loading = false;
       }
@@ -53,16 +61,19 @@ export const useAuthStore = defineStore('auth', {
         );
 
         const { token, ...user } = response.data;
+
         this.token = token;
         this.user = user;
 
         localStorage.setItem('token', token);
+        localStorage.setItem('userData', JSON.stringify(user));
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-        return true;
+        return { success: true };
       } catch (error) {
+        console.error('Registration error:', error);
         this.error = error.response?.data?.message || 'Registration failed';
-        return false;
+        return { success: false };
       } finally {
         this.loading = false;
       }
@@ -77,11 +88,12 @@ export const useAuthStore = defineStore('auth', {
           email,
         });
 
-        return true;
+        return { success: true };
       } catch (error) {
+        console.error('Forgot password error:', error);
         this.error =
           error.response?.data?.message || 'Failed to send reset password email';
-        return false;
+        return { success: false };
       } finally {
         this.loading = false;
       }
@@ -91,11 +103,28 @@ export const useAuthStore = defineStore('auth', {
       this.user = null;
       this.token = null;
       localStorage.removeItem('token');
+      localStorage.removeItem('userData');
       delete axios.defaults.headers.common['Authorization'];
     },
 
     clearError() {
       this.error = null;
+    },
+
+    initAuth() {
+      try {
+        const token = localStorage.getItem('token');
+        const userData = localStorage.getItem('userData');
+
+        if (token && userData) {
+          this.token = token;
+          this.user = JSON.parse(userData);
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        }
+      } catch (error) {
+        console.error('Error initializing auth:', error);
+        this.logout();
+      }
     },
   },
 });

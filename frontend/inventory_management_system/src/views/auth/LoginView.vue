@@ -1,4 +1,4 @@
-`<template>
+<template>
   <div class="max-w-md w-full space-y-8 bg-white shadow-md rounded-md p-6 md:p-8">
     <div>
       <h2 class="text-center text-3xl font-extrabold text-gray-900">
@@ -134,16 +134,20 @@ const handleSubmit = async () => {
     // Validate form
     await schema.validate(form, { abortEarly: false });
 
-    // Register user
-    const success = await authStore.register({
-      name: form.name,
+    // Login user
+    const success = await authStore.login({
       email: form.email,
-      password: form.password,
-      role: form.role
+      password: form.password
     });
 
     if (success) {
-      router.push('/registration-success');
+      // Route based on user role
+      const userRole = authStore.userRole;
+      if (userRole === 'admin') {
+        router.push('/admin-dashboard');
+      } else if (userRole === 'storekeeper') {
+        router.push('/store-dashboard');
+      }
     }
   } catch (error) {
     if (error.inner) {
@@ -152,4 +156,5 @@ const handleSubmit = async () => {
       });
     }
   }
-};</script>`
+};
+</script>
