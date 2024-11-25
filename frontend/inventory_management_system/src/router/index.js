@@ -33,9 +33,9 @@ const router = createRouter({
       redirect: '/login'
     },
     {
-      path: '/dashboard',
+      path: '/store-dashboard',
       name: 'dashboard',
-      component: () => import('@/views/DashboardView.vue'),
+      component: () => import('@/views/dashboard/storekeeper/StoreDashboardView.vue'),
       meta: { requiresAuth: true }
     }
   ]
