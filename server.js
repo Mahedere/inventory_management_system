@@ -6,11 +6,17 @@ const itemRoutes = require('./routes/itemRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const saleRoutes = require('./routes/saleRoutes');
 const app = express();
+const cors = require("cors");
 
 // Connect to database
 connectDB();
 
 // Middleware
+app.use(
+  cors({ 
+    origin: "*",
+    // credentials: true
+   }))
 app.use(express.json());
 
 // Routes
