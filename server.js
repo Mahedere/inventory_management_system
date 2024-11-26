@@ -5,6 +5,7 @@ const authRoutes = require('./routes/authRoutes');
 const itemRoutes = require('./routes/itemRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const saleRoutes = require('./routes/saleRoutes');
+const userRoutes = require('./routes/userRoutes');
 const app = express();
 const cors = require("cors");
 
@@ -18,12 +19,12 @@ app.use(
     // credentials: true
    }))
 app.use(express.json());
-
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/items', itemRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/sales', saleRoutes);
+app.use('/api/users', userRoutes);
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);

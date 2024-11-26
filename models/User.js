@@ -35,7 +35,17 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ['storekeeper', 'salesperson', 'admin', 'guest'], 
-    required: true,
+    default: 'guest',
+  }, isActive: {
+    type: Boolean,
+    default: true
+  },
+  lastLogin: {
+    type: Date
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
   },
   notificationPreferences: {
     itemAdded: { type: Boolean, default: true },
