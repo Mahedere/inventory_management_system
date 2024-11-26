@@ -148,6 +148,11 @@ const handleSubmit = async () => {
       } else if (userRole === 'storekeeper') {
         router.push('/store-dashboard');
       }
+       else if (userRole === 'salesperson') {
+        router.push('/sales-dashboard');
+      } else if (userRole === 'guest') {
+        router.push('/registration-success');
+    }
     }
   } catch (error) {
     if (error.inner) {

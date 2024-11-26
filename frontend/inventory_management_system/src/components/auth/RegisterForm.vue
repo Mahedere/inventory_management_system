@@ -140,7 +140,7 @@ const form = reactive({
   password: '',
   confirmPassword: '',
   terms: false,
-  role: 'salesperson', // Default role
+  role: 'guest', // Default role
 });
 
 const schema = yup.object().shape({

@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
  * @property {string} name - The name of the user.
  * @property {string} email - The email address of the user (unique).
  * @property {string} password - The hashed password of the user.
- * @property {('storekeeper' | 'salesperson')} role - The role of the user within the system.
+ * @property {('storekeeper' | 'salesperson' | 'admin' | 'guest')} role - The role of the user within the system.
  * @property {Object} notificationPreferences - User's preferences for notifications.
  * @property {boolean} notificationPreferences.itemAdded - Preference for notifications on item addition.
  * @property {boolean} notificationPreferences.lowStock - Preference for notifications on low stock.
@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['storekeeper', 'salesperson'],
+    enum: ['storekeeper', 'salesperson', 'admin', 'guest'], 
     required: true,
   },
   notificationPreferences: {
