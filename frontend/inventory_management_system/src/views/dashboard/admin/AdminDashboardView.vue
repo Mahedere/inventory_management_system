@@ -1,14 +1,10 @@
 <template>
   <StoreDashboardLayout>
-    <!-- Stats Section -->
-    <div class="grid grid-cols-1 gap-4 mb-6 sm:grid-cols-2 lg:grid-cols-4">
-      <StatsCard
-        v-for="stat in dashboardStats"
-        :key="stat.title"
-        v-bind="stat"
+<!-- Top Navigation -->
+      <TopNav 
+        :userName="userName"
+        class="z-10"
       />
-    </div>
-
     <!-- New Users Section -->
     <section class="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-6">
       <header class="flex justify-between items-center mb-4">
@@ -209,7 +205,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useUserStore } from '@/stores/users';
-
+import TopNav from '@/components/dashboard/admin/TopNav.vue';
 const userStore = useUserStore();
 const searchQuery = ref('');
 const roleFilter = ref('');

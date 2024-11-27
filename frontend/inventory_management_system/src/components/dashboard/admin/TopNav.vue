@@ -5,7 +5,7 @@
         <h1 class="text-xl font-semibold text-gray-900 lg:text-2xl">
           Morning, <span>{{ userName }}</span>!
         </h1>
-        <p class="text-sm text-gray-500">Here's what's happening with your store today.</p>
+        <p class="text-sm text-gray-500">Guess who just registered today</p>
       </div>
       
       <div class="flex ml-15 flex-col items-start space-y-4 lg:flex-row lg:items-center lg:space-y-0 lg:space-x-4">
