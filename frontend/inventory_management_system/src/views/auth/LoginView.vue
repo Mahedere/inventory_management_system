@@ -22,27 +22,38 @@
       </div>
 
       <!-- Password Field -->
-      <div class="relative">
-        <label for="password" class="sr-only">Password</label>
-        <input
-          id="password"
-          v-model="form.password"
-          :type="showPassword ? 'text' : 'password'"
-          required
-          class="input-field w-full rounded-md p-3 border border-indigo-600 focus:ring-indigo-500 focus:border-indigo-600"
-          :class="{ 'border-red-500': errors.password }"
-          placeholder="Password"
-        >
-        <button
-          type="button"
-          @click="showPassword = !showPassword"
-          class="absolute right-3 top-1/2 transform -translate-y-1/2"
-        >
-          <span v-if="showPassword">🙈</span>
-          <span v-else>👁</span>
-        </button>
-        <span v-if="errors.password" class="text-red-500 text-sm">{{ errors.password }}</span>
-      </div>
+<div class="relative">
+  <label for="password" class="sr-only">Password</label>
+  <input
+    id="password"
+    v-model="form.password"
+    :type="showPassword ? 'text' : 'password'"
+    required
+    class="input-field w-full rounded-md p-3 border border-indigo-600 focus:ring-indigo-500 focus:border-indigo-600"
+    :class="{ 'border-red-500': errors.password }"
+    placeholder="Password"
+  >
+  <button
+    type="button"
+    @click="showPassword = !showPassword"
+    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-indigo-500"
+    aria-label="Toggle password visibility"
+  >
+    <!-- Eye Icon (Password Visible) -->
+    <svg v-if="showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M1 12C2.732 7.943 7.02 5 12 5s9.268 2.943 11 7c-1.732 4.057-6.02 7-11 7s-9.268-2.943-11-7z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+
+    <!-- Eye Slash Icon (Password Hidden) -->
+    <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M1 12C2.732 7.943 7.02 5 12 5s9.268 2.943 11 7c-1.732 4.057-6.02 7-11 7s-9.268-2.943-11-7z" />
+      <path d="M3.515 3.515l17 17M9.172 9.172A3.001 3.001 0 0112 9c1.657 0 3 1.343 3 3 0 .828-.336 1.578-.88 2.121m-.948.947a2.999 2.999 0 01-4.24-4.24" />
+    </svg>
+  </button>
+  <span v-if="errors.password" class="text-red-500 text-sm">{{ errors.password }}</span>
+</div>
+
 
       <!-- Remember Me and Forgot Password -->
       <div class="flex items-center justify-between">
