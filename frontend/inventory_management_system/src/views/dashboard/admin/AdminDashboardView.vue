@@ -1,18 +1,36 @@
 <template>
   <StoreDashboardLayout>
-<!-- Top Navigation -->
-      <TopNav 
-        :userName="userName"
-        class="z-10"
-      />
+    <!-- Top Navigation -->
+    <TopNav :userName="userName" class="z-10" />
+    <section class="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+          v-for="stat in dashboardStats"
+          :key="stat.title"
+          class="p-4 border rounded-lg shadow-sm bg-white"
+        >
+          <h3 class="text-sm font-medium text-gray-500">{{ stat.title }}</h3>
+          <p class="text-2xl font-bold text-gray-900">{{ stat.value }}</p>
+          <p class="text-sm text-gray-500">{{ stat.subtitle }}</p>
+          <span
+            :class="[
+              'inline-flex items-center px-2 py-1 rounded text-xs font-medium',
+              stat.trend > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
+            ]"
+          >
+            {{ stat.trend > 0 ? '+' : '' }}{{ stat.trend }}% this week
+          </span>
+        </div>
+      </div>
+    </section>
     <!-- New Users Section -->
     <section class="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-6">
       <header class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-medium text-gray-900">New User Registrations</h2>
-        <span 
+        <span
           :class="[
             'px-3 py-1 rounded-full text-sm',
-            guestUsers.length > 0 ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800'
+            guestUsers.length > 0 ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800',
           ]"
         >
           {{ guestUsers.length }} Pending
@@ -25,7 +43,10 @@
           No guest user registrations
         </div>
         <!-- Table for larger screens -->
-        <table v-if="guestUsers.length > 0" class="hidden sm:table min-w-full divide-y divide-gray-200 text-sm">
+        <table
+          v-if="guestUsers.length > 0"
+          class="hidden sm:table min-w-full divide-y divide-gray-200 text-sm"
+        >
           <thead class="bg-gray-50">
             <tr>
               <th class="px-4 py-2 text-left font-medium text-gray-600">Name</th>
@@ -40,7 +61,8 @@
               <td class="px-4 py-3 text-gray-500">{{ user.email }}</td>
               <td class="px-4 py-3 text-gray-500">{{ formatDate(user.createdAt) }}</td>
               <td class="px-4 py-3">
-                <select placeholder="Select Role"
+                <select
+                  placeholder="Select Role"
                   v-model="user.selectedRole"
                   @change="assignRole(user)"
                   class="w-full px-3 py-2 border rounded-md focus:ring focus:ring-indigo-300"
@@ -91,7 +113,9 @@
 
     <!-- All Users Section -->
     <section class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
-      <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 space-y-4 sm:space-y-0">
+      <header
+        class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 space-y-4 sm:space-y-0"
+      >
         <h2 class="text-lg font-medium text-gray-900">All Users</h2>
         <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0">
           <input
@@ -114,7 +138,10 @@
       <!-- Users List -->
       <div>
         <!-- Table for larger screens -->
-        <table v-if="paginatedUsers.length > 0" class="hidden sm:table min-w-full divide-y divide-gray-200 text-sm">
+        <table
+          v-if="paginatedUsers.length > 0"
+          class="hidden sm:table min-w-full divide-y divide-gray-200 text-sm"
+        >
           <thead class="bg-gray-50">
             <tr>
               <th class="px-4 py-2 text-left font-medium text-gray-600">Email</th>
@@ -130,17 +157,14 @@
                   class="px-2 py-1 inline-flex text-xs font-semibold rounded-full"
                   :class="{
                     'bg-green-100 text-green-800': user.role === 'storekeeper',
-                    'bg-blue-100 text-blue-800': user.role === 'salesperson'
+                    'bg-blue-100 text-blue-800': user.role === 'salesperson',
                   }"
                 >
                   {{ user.role }}
                 </span>
               </td>
               <td class="px-4 py-3 text-right">
-                <button
-                  @click="toggleUserStatus(user)"
-                  class="text-indigo-600 hover:underline"
-                >
+                <button @click="toggleUserStatus(user)" class="text-indigo-600 hover:underline">
                   {{ user.isActive ? 'Deactivate' : 'Activate' }}
                 </button>
               </td>
@@ -165,10 +189,7 @@
               <p class="text-gray-700">{{ user.role }}</p>
             </div>
             <div>
-              <button
-                @click="toggleUserStatus(user)"
-                class="text-indigo-600 hover:underline"
-              >
+              <button @click="toggleUserStatus(user)" class="text-indigo-600 hover:underline">
                 {{ user.isActive ? 'Deactivate' : 'Activate' }}
               </button>
             </div>
@@ -185,9 +206,7 @@
         >
           Previous
         </button>
-        <span class="text-sm text-gray-700">
-          Page {{ currentPage }} of {{ totalPages }}
-        </span>
+        <span class="text-sm text-gray-700"> Page {{ currentPage }} of {{ totalPages }} </span>
         <button
           @click="goToPage(currentPage + 1)"
           :disabled="currentPage >= totalPages"
@@ -200,103 +219,100 @@
   </StoreDashboardLayout>
 </template>
 
-
-
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { useUserStore } from '@/stores/users';
-import TopNav from '@/components/dashboard/admin/TopNav.vue';
-const userStore = useUserStore();
-const searchQuery = ref('');
-const roleFilter = ref('');
-const currentPage = ref(1);
-const usersPerPage = 4;
+import { ref, computed, onMounted } from 'vue'
+import { useUserStore } from '@/stores/users'
+import TopNav from '@/components/dashboard/admin/TopNav.vue'
+const userStore = useUserStore()
+const searchQuery = ref('')
+const roleFilter = ref('')
+const currentPage = ref(1)
+const usersPerPage = 4
 
 const dashboardStats = computed(() => [
   {
     title: 'Total Users',
     value: userStore.totalUsers,
     trend: 8,
-    subtitle: 'Active users'
+    subtitle: 'Active users',
   },
   {
     title: 'New Registrations',
     value: userStore.guestUsers.length,
     trend: 12,
-    subtitle: 'This week'
+    subtitle: 'This week',
   },
   {
     title: 'Storekeepers',
     value: userStore.storekeepersCount,
     trend: 5,
-    subtitle: 'Active storekeepers'
+    subtitle: 'Active storekeepers',
   },
   {
     title: 'Salespersons',
     value: userStore.salespersonsCount,
     trend: 3,
-    subtitle: 'Active salespersons'
-  }
-]);
+    subtitle: 'Active salespersons',
+  },
+])
 
-const guestUsers = computed(() => userStore.guestUsers);
+const guestUsers = computed(() => userStore.guestUsers)
 
 const filteredUsers = computed(() => {
-  let users = userStore.assignedUsers;
+  let users = userStore.assignedUsers
 
   if (searchQuery.value) {
-    const query = searchQuery.value.toLowerCase();
-    users = users.filter(user => 
-      user.name.toLowerCase().includes(query) ||
-      user.email.toLowerCase().includes(query)
-    );
+    const query = searchQuery.value.toLowerCase()
+    users = users.filter(
+      (user) => user.name.toLowerCase().includes(query) || user.email.toLowerCase().includes(query),
+    )
   }
 
   if (roleFilter.value) {
-    users = users.filter(user => user.role === roleFilter.value);
+    users = users.filter((user) => user.role === roleFilter.value)
   }
 
-  return users;
-});
+  return users
+})
 
 // Pagination computed property
-const totalPages = computed(() => Math.ceil(filteredUsers.value.length / usersPerPage));
+const totalPages = computed(() => Math.ceil(filteredUsers.value.length / usersPerPage))
 const paginatedUsers = computed(() => {
-  const start = (currentPage.value - 1) * usersPerPage;
-  return filteredUsers.value.slice(start, start + usersPerPage);
-});
+  const start = (currentPage.value - 1) * usersPerPage
+  return filteredUsers.value.slice(start, start + usersPerPage)
+})
 
 const formatDate = (date) => {
   return new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
-    day: 'numeric'
-  });
-};
+    day: 'numeric',
+  })
+}
 
 const assignRole = async (user) => {
   try {
-    await userStore.assignRole(user._id, user.selectedRole);
+    await userStore.assignRole(user._id, user.selectedRole)
   } catch (error) {
-    console.error('Error assigning role:', error);
+    console.error('Error assigning role:', error)
   }
-};
+}
 
 const toggleUserStatus = async (user) => {
   try {
-    await userStore.toggleUserStatus(user._id);
+    await userStore.toggleUserStatus(user._id)
   } catch (error) {
-    console.error('Error toggling user status:', error);
+    console.error('Error toggling user status:', error)
   }
-};
+}
 
 const goToPage = (page) => {
   if (page >= 1 && page <= totalPages.value) {
-    currentPage.value = page;
+    currentPage.value = page
   }
-};
+}
 
 onMounted(async () => {
-  await userStore.fetchUsers();
-});
+  await userStore.fetchUsers()
+})
 </script>

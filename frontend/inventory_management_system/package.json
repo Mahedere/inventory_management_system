@@ -15,6 +15,8 @@
     "@heroicons/vue": "^1.0.6",
     "@vueuse/core": "^11.3.0",
     "axios": "^1.7.7",
+    "install": "^0.13.0",
+    "npm": "^10.9.1",
     "pinia": "^2.2.6",
     "vee-validate": "^4.14.7",
     "vue": "^3.5.12",
