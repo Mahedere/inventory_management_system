@@ -8,6 +8,7 @@ const {
   createSale,
   getSalesReport,
   getSalesPerformance,
+  getSalesBySalesperson,
 } = require("../controllers/saleController");
 
 router.post(
@@ -29,6 +30,12 @@ router.get(
   protect,
   checkRole(["salesperson"]),
   getSalesPerformance
+);
+router.get(
+  "/salesperson",
+  protect,
+  checkRole(["salesperson"]),  
+  getSalesBySalesperson
 );
 
 module.exports = router;

@@ -254,7 +254,7 @@
                                             <option value="">Select Item</option>
                                             <option v-for="item in availableItems" :key="item._id" :value="item._id">
                                                 {{ item.name }} - Stock: {{ item.quantity }} - {{
-                                                formatPrice(item.price) }}
+                                                    formatPrice(item.price) }}
                                             </option>
                                         </select>
                                     </div>
@@ -326,10 +326,10 @@ const recentSales = ref([]);
 const sales = ref([]);
 
 const saleForm = ref({
-  itemId: '',
-  quantity: 1,
-  customerName: '',
-  customerContact: ''
+    itemId: '',
+    quantity: 1,
+    customerName: '',
+    customerContact: ''
 });
 
 const currentPage = ref(1);
@@ -339,167 +339,179 @@ const itemsPerPage = ref(4);
 // Computed Properties
 // ----------------------------------------------
 const selectedItem = computed(() =>
-  availableItems.value.find(item => item._id === saleForm.value.itemId)
+    availableItems.value.find(item => item._id === saleForm.value.itemId)
 );
 
 const calculateTotal = computed(() => {
-  if (!selectedItem.value) return formatPrice(0);
-  return formatPrice(selectedItem.value.price * saleForm.value.quantity);
+    if (!selectedItem.value) return formatPrice(0);
+    return formatPrice(selectedItem.value.price * saleForm.value.quantity);
 });
 
 const filteredSales = computed(() => {
-  const query = searchQuery.value.toLowerCase();
+    const query = searchQuery.value.toLowerCase();
 
-  if (!query) return recentSales.value;
+    if (!query) return recentSales.value;
 
-  return recentSales.value.filter(sale =>
-    sale.item.name.toLowerCase().includes(query) ||
-    sale.customerName.toLowerCase().includes(query)
-  );
+    return recentSales.value.filter(sale =>
+        sale.item.name.toLowerCase().includes(query) ||
+        sale.customerName.toLowerCase().includes(query)
+    );
 });
 
 const todayStats = computed(() => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-  const todaySales = recentSales.value.filter(sale =>
-    new Date(sale.saleDate) >= today
-  );
+    const todaySales = recentSales.value.filter(sale =>
+        new Date(sale.saleDate) >= today
+    );
 
-  return {
-    sales: todaySales.reduce((sum, sale) => sum + sale.totalAmount, 0),
-    transactions: todaySales.length
-  };
+    return {
+        sales: todaySales.reduce((sum, sale) => sum + sale.totalAmount, 0),
+        transactions: todaySales.length
+    };
 });
 
 const monthlyStats = computed(() => {
-  const today = new Date();
-  const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+    const today = new Date();
+    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  const monthlySales = recentSales.value.filter(sale =>
-    new Date(sale.saleDate) >= firstDay
-  );
+    const monthlySales = recentSales.value.filter(sale =>
+        new Date(sale.saleDate) >= firstDay
+    );
 
-  return {
-    sales: monthlySales.reduce((sum, sale) => sum + sale.totalAmount, 0),
-    transactions: monthlySales.length
-  };
+    return {
+        sales: monthlySales.reduce((sum, sale) => sum + sale.totalAmount, 0),
+        transactions: monthlySales.length
+    };
 });
 
 const totalPages = computed(() => Math.ceil(sales.value.length / itemsPerPage.value));
 const paginatedSales = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage.value;
-  return sales.value.slice(start, start + itemsPerPage.value);
+    const start = (currentPage.value - 1) * itemsPerPage.value;
+    return sales.value.slice(start, start + itemsPerPage.value);
 });
 
 // ----------------------------------------------
 // Helper Functions
 // ----------------------------------------------
 const formatPrice = price =>
-  new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD'
-  }).format(price);
+    new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    }).format(price);
 
 const formatDate = date =>
-  new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
+    new Date(date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
 
 // ----------------------------------------------
 // API Calls
 // ----------------------------------------------
 const fetchItems = async () => {
-  try {
-    const response = await axios.get('http://localhost:5000/api/items', {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-    availableItems.value = response.data;
-  } catch (error) {
-    console.error('Error fetching items:', error);
-  }
+    try {
+        const response = await axios.get('http://localhost:5000/api/items', {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
+        availableItems.value = response.data;
+    } catch (error) {
+        console.error('Error fetching items:', error);
+    }
+};
+const fetchRecentSales = async () => {
+    try {
+        const response = await axios.get('http://localhost:5000/api/sales/salesperson', {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
+        recentSales.value = response.data;  // Store the fetched sales in the recentSales array
+    } catch (error) {
+        console.error('Error fetching recent sales:', error);
+    }
 };
 
 const fetchSales = async () => {
-  try {
-    const response = await axios.get('http://localhost:5000/api/sales/performance', {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-    recentSales.value = response.data.sales || [];
-  } catch (error) {
-    console.error('Error fetching sales:', error);
-  }
+    try {
+        const response = await axios.get('http://localhost:5000/api/sales/performance', {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
+        const allSales = response.data.sales || [];
+
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        recentSales.value = allSales.filter(sale => sale.userId === userData._id);
+    } catch (error) {
+        console.error('Error fetching sales:', error);
+    }
 };
 
 const handleSaleSubmit = async () => {
-  try {
-    await axios.post('http://localhost:5000/api/sales', saleForm.value, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-
-    await fetchSales();
-    await fetchItems();
-    closeNewSaleModal();
-  } catch (error) {
-    console.error('Error creating sale:', error);
-    alert(error.response?.data?.message || 'Error creating sale');
-  }
+    try {
+        const response = await axios.post('http://localhost:5000/api/sales', saleForm.value, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
+        await fetchRecentSales();
+        closeNewSaleModal();
+    } catch (error) {
+        console.error('Error creating sale:', error);
+        alert(error.response?.data?.message || 'Error creating sale');
+    }
 };
+
 
 // ----------------------------------------------
 // Event Handlers
 // ----------------------------------------------
 const toggleSidebar = () => {
-  isSidebarOpen.value = !isSidebarOpen.value;
+    isSidebarOpen.value = !isSidebarOpen.value;
 };
 
 const toggleUserMenu = () => {
-  isUserMenuOpen.value = !isUserMenuOpen.value;
+    isUserMenuOpen.value = !isUserMenuOpen.value;
 };
 
 const openNewSaleModal = () => {
-  saleForm.value = {
-    itemId: '',
-    quantity: 1,
-    customerName: '',
-    customerContact: ''
-  };
-  showSaleModal.value = true;
+    saleForm.value = {
+        itemId: '',
+        quantity: 1,
+        customerName: '',
+        customerContact: ''
+    };
+    showSaleModal.value = true;
 };
 
 const closeNewSaleModal = () => {
-  showSaleModal.value = false;
+    showSaleModal.value = false;
 };
 
 const logout = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('userData');
-  window.location.href = '/login';
+    localStorage.removeItem('token');
+    localStorage.removeItem('userData');
+    window.location.href = '/login';
 };
 
 const prevPage = () => {
-  if (currentPage.value > 1) currentPage.value--;
+    if (currentPage.value > 1) currentPage.value--;
 };
 
 const nextPage = () => {
-  if (currentPage.value < totalPages.value) currentPage.value++;
+    if (currentPage.value < totalPages.value) currentPage.value++;
 };
 
 // ----------------------------------------------
 // Lifecycle Hooks
 // ----------------------------------------------
 onMounted(async () => {
-  await fetchItems();
-  await fetchSales();
-
-  const userData = localStorage.getItem('userData');
-  if (userData) {
-    const parsedData = JSON.parse(userData);
-    userName.value = parsedData.name;
-  }
+    await fetchItems();
+    await fetchSales();
+    fetchRecentSales();
+    const userData = localStorage.getItem('userData');
+    if (userData) {
+        const parsedData = JSON.parse(userData);
+        userName.value = parsedData.name;
+    }
 });
 </script>

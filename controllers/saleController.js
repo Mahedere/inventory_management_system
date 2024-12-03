@@ -183,9 +183,29 @@ const getSalesPerformance = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+/**
+ * Get all sales made by a specific salesperson
+ * @route GET /api/sales/salesperson
+ * @access Private/Salesperson
+ */
+const getSalesBySalesperson = async (req, res) => {
+  try {
+    const userId = req.user._id; // Get the logged-in user's ID
 
+    // Fetch all sales where the salesperson is the logged-in user
+    const sales = await Sale.find({ soldBy: userId })
+      .populate('item', 'name price') // Optionally populate item details
+      .populate('soldBy', 'name email') // Populate salesperson info
+      .sort('-saleDate'); // Sort by sale date, newest first
+
+    res.json(sales);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
 module.exports = {
   createSale,
   getSalesReport,
-  getSalesPerformance
+  getSalesPerformance,
+  getSalesBySalesperson
 };
