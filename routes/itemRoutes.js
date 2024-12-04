@@ -9,6 +9,7 @@ const {
   updateItemQuantity,
   getItems,
   deleteItem,
+  updateItem,  
 } = require('../controllers/itemController');
 
 /**
@@ -68,6 +69,34 @@ router.patch('/:id/quantity', [
   check('quantity', 'Quantity must be a non-negative number').isInt({ min: 0 }),
   validateRequest
 ], updateItemQuantity);
+
+/**
+ * @route PATCH /:id
+ * @group item - Item operations
+ * @security JWT
+ * @param {string} name.body.required - The updated name of the item
+ * @param {string} description.body.required - The updated description of the item
+ * @param {string} model.body.required - The updated model of the item
+ * @param {string} category.body.required - The updated category of the item
+ * @param {number} quantity.body.required - The updated quantity of the item
+ * @param {number} maxLimit.body.required - The updated maximum limit for the item
+ * @returns {object} 200 - The updated item's data
+ * @returns {Error}  404 - Not Found if item does not exist
+ * @returns {Error}  400 - Bad Request if validation fails
+ * @returns {Error}  403 - Forbidden if user is not a storekeeper
+ * @returns {Error}  401 - Unauthorized if not authenticated
+ */
+router.patch('/:id', [
+  protect,
+  checkRole(['storekeeper']), // Modify based on who should be allowed to update
+  check('name', 'Name is required').notEmpty(),
+  check('description', 'Description is required').notEmpty(),
+  check('model', 'Model is required').notEmpty(),
+  check('category', 'Category is required').notEmpty(),
+  check('quantity', 'Quantity must be a non-negative number').isInt({ min: 0 }),
+  check('maxLimit', 'Max limit must be greater than 0').isInt({ min: 1 }),
+  validateRequest
+], updateItem);
 
 /**
  * @route DELETE /:id

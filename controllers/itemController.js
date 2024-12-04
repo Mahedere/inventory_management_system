@@ -6,15 +6,10 @@ const Notification = require("../models/Notification");
  * Creates a new inventory item and sends notifications to users who have opted in for item addition notifications.
  * @async
  * @function createItem
- * @param {Object} req - Express request object containing the item details.
- * @param {Object} req.body - Request body containing the item's name, description, model, category, quantity, and maxLimit.
- * @param {Object} req.user - The authenticated user adding the item.
- * @param {Object} res - Express response object used to send a response back to the client.
- * @returns {Promise<void>} Responds with the created item or an error message.
  */
 const createItem = async (req, res) => {
   try {
-    const { name, description, model, category, quantity, maxLimit ,price} = req.body;
+    const { name, description, model, category, quantity, maxLimit, price } = req.body;
 
     const item = await Item.create({
       name,
@@ -50,10 +45,6 @@ const createItem = async (req, res) => {
  * Updates the quantity of an inventory item and sends low stock alerts if the quantity is below 20% of the max limit.
  * @async
  * @function updateItemQuantity
- * @param {Object} req - Express request object containing the updated quantity.
- * @param {Object} req.body - Request body containing the new quantity value.
- * @param {Object} res - Express response object used to send a response back to the client.
- * @returns {Promise<void>} Responds with the updated item or an error message.
  */
 const updateItemQuantity = async (req, res) => {
   try {
@@ -101,10 +92,6 @@ const updateItemQuantity = async (req, res) => {
  * Retrieves a list of inventory items based on optional filters for name, category, and model.
  * @async
  * @function getItems
- * @param {Object} req - Express request object containing the query filters.
- * @param {Object} req.query - Query parameters for filtering items by name, category, or model.
- * @param {Object} res - Express response object used to send a response back to the client.
- * @returns {Promise<void>} Responds with a list of filtered items or an error message.
  */
 const getItems = async (req, res) => {
   try {
@@ -126,9 +113,6 @@ const getItems = async (req, res) => {
  * Deletes an inventory item and sends notifications to users who have opted in for item removal notifications.
  * @async
  * @function deleteItem
- * @param {Object} req - Express request object containing the item ID.
- * @param {Object} res - Express response object used to send a response back to the client.
- * @returns {Promise<void>} Responds with a success message or an error message.
  */
 const deleteItem = async (req, res) => {
   try {
@@ -158,9 +142,47 @@ const deleteItem = async (req, res) => {
   }
 };
 
+/**
+ * Updates all fields of an item by its ID.
+ * @async
+ * @function updateItem
+ */
+const updateItem = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate item existence
+    const item = await Item.findById(id);
+    if (!item) {
+      return res.status(404).json({ error: "Item not found" });
+    }
+
+    // Update fields
+    const allowedUpdates = ["name", "description", "model", "category", "quantity", "maxLimit", "price"];
+    const updates = Object.keys(req.body);
+    const isValidOperation = updates.every((update) =>
+      allowedUpdates.includes(update)
+    );
+
+    if (!isValidOperation) {
+      return res.status(400).json({ error: "Invalid updates!" });
+    }
+
+    updates.forEach((update) => (item[update] = req.body[update]));
+    item.lastUpdatedBy = req.user._id; // Track updater
+    await item.save();
+
+    res.json(item); // Return updated item
+  } catch (error) {
+    console.error("Error updating item:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 module.exports = {
   createItem,
   updateItemQuantity,
   getItems,
   deleteItem,
+  updateItem, 
 };
