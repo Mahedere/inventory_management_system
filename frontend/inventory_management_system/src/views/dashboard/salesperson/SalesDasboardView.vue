@@ -156,38 +156,50 @@
 
                             <!-- Table -->
                             <div class="overflow-x-auto">
+                                <!-- Table View for Larger Screens -->
                                 <table class="min-w-full divide-y divide-gray-200 hidden md:table">
                                     <thead class="bg-gray-50">
                                         <tr>
                                             <th
                                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Date</th>
+                                                Date
+                                            </th>
                                             <th
                                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Item</th>
+                                                Item
+                                            </th>
                                             <th
                                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Customer</th>
+                                                Customer
+                                            </th>
                                             <th
                                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Quantity</th>
+                                                Quantity
+                                            </th>
                                             <th
                                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Amount</th>
+                                                Amount
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
                                         <tr v-for="sale in filteredSales" :key="sale._id">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{
-                                                formatDate(sale.saleDate) }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{
-                                                sale.item.name }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{
-                                                sale.customerName }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{
-                                                sale.quantity }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{
-                                                formatPrice(sale.totalAmount) }}</td>
+                                            <!-- Safely access sale properties -->
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                {{ sale.saleDate ? formatDate(sale.saleDate) : 'N/A' }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                {{ sale.item?.name || 'N/A' }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                {{ sale.customerName || 'Unknown' }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                {{ sale.quantity || 0 }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                {{ sale.totalAmount ? formatPrice(sale.totalAmount) : '0.00' }}
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -197,17 +209,23 @@
                                     <div v-for="sale in filteredSales" :key="sale._id"
                                         class="border rounded-lg p-4 shadow-sm bg-white">
                                         <div class="flex justify-between text-sm">
-                                            <div class="font-medium text-gray-900">{{ sale.item.name }}</div>
-                                            <div class="text-gray-500">{{ formatDate(sale.saleDate) }}</div>
+                                            <div class="font-medium text-gray-900">
+                                                {{ sale.item?.name || 'N/A' }}
+                                            </div>
+                                            <div class="text-gray-500">
+                                                {{ sale.saleDate ? formatDate(sale.saleDate) : 'N/A' }}
+                                            </div>
                                         </div>
                                         <div class="text-sm text-gray-500 mt-1">
-                                            <div>Customer: {{ sale.customerName }}</div>
-                                            <div>Quantity: {{ sale.quantity }}</div>
-                                            <div>Amount: {{ formatPrice(sale.totalAmount) }}</div>
+                                            <div>Customer: {{ sale.customerName || 'Unknown' }}</div>
+                                            <div>Quantity: {{ sale.quantity || 0 }}</div>
+                                            <div>Amount: {{ sale.totalAmount ? formatPrice(sale.totalAmount) : '0.00' }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
 
                             <!-- Pagination -->
                             <div class="flex items-center justify-between px-6 py-3 border-t bg-gray-50">
@@ -313,9 +331,7 @@ import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
 
-// ----------------------------------------------
-// State Management
-// ----------------------------------------------
+// State
 const isSidebarOpen = ref(false);
 const isUserMenuOpen = ref(false);
 const showSaleModal = ref(false);
@@ -324,20 +340,15 @@ const searchQuery = ref('');
 const availableItems = ref([]);
 const recentSales = ref([]);
 const sales = ref([]);
-
 const saleForm = ref({
     itemId: '',
     quantity: 1,
     customerName: '',
     customerContact: ''
 });
-
 const currentPage = ref(1);
 const itemsPerPage = ref(4);
-
-// ----------------------------------------------
 // Computed Properties
-// ----------------------------------------------
 const selectedItem = computed(() =>
     availableItems.value.find(item => item._id === saleForm.value.itemId)
 );
@@ -348,10 +359,9 @@ const calculateTotal = computed(() => {
 });
 
 const filteredSales = computed(() => {
+    if (!searchQuery.value) return recentSales.value;
+
     const query = searchQuery.value.toLowerCase();
-
-    if (!query) return recentSales.value;
-
     return recentSales.value.filter(sale =>
         sale.item.name.toLowerCase().includes(query) ||
         sale.customerName.toLowerCase().includes(query)
@@ -385,34 +395,37 @@ const monthlyStats = computed(() => {
         transactions: monthlySales.length
     };
 });
-
 const totalPages = computed(() => Math.ceil(sales.value.length / itemsPerPage.value));
 const paginatedSales = computed(() => {
     const start = (currentPage.value - 1) * itemsPerPage.value;
     return sales.value.slice(start, start + itemsPerPage.value);
 });
+// Methods
+const toggleSidebar = () => {
+    isSidebarOpen.value = !isSidebarOpen.value;
+};
 
-// ----------------------------------------------
-// Helper Functions
-// ----------------------------------------------
-const formatPrice = price =>
-    new Intl.NumberFormat('en-US', {
+const toggleUserMenu = () => {
+    isUserMenuOpen.value = !isUserMenuOpen.value;
+};
+
+const formatPrice = (price) => {
+    return new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD'
     }).format(price);
+};
 
-const formatDate = date =>
-    new Date(date).toLocaleDateString('en-US', {
+const formatDate = (date) => {
+    return new Date(date).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
         hour: '2-digit',
         minute: '2-digit'
     });
+};
 
-// ----------------------------------------------
-// API Calls
-// ----------------------------------------------
 const fetchItems = async () => {
     try {
         const response = await axios.get('http://localhost:5000/api/items', {
@@ -428,7 +441,8 @@ const fetchRecentSales = async () => {
         const response = await axios.get('http://localhost:5000/api/sales/salesperson', {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
-        recentSales.value = response.data;  // Store the fetched sales in the recentSales array
+        console.log('API Response:', response.data); // Log the response
+        recentSales.value = response.data;
     } catch (error) {
         console.error('Error fetching recent sales:', error);
     }
@@ -439,10 +453,7 @@ const fetchSales = async () => {
         const response = await axios.get('http://localhost:5000/api/sales/performance', {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
-        const allSales = response.data.sales || [];
-
-        const userData = JSON.parse(localStorage.getItem('userData'));
-        recentSales.value = allSales.filter(sale => sale.userId === userData._id);
+        recentSales.value = response.data.sales || [];
     } catch (error) {
         console.error('Error fetching sales:', error);
     }
@@ -453,24 +464,15 @@ const handleSaleSubmit = async () => {
         const response = await axios.post('http://localhost:5000/api/sales', saleForm.value, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
+
+        await fetchSales();
+        await fetchItems();
         await fetchRecentSales();
         closeNewSaleModal();
     } catch (error) {
         console.error('Error creating sale:', error);
         alert(error.response?.data?.message || 'Error creating sale');
     }
-};
-
-
-// ----------------------------------------------
-// Event Handlers
-// ----------------------------------------------
-const toggleSidebar = () => {
-    isSidebarOpen.value = !isSidebarOpen.value;
-};
-
-const toggleUserMenu = () => {
-    isUserMenuOpen.value = !isUserMenuOpen.value;
 };
 
 const openNewSaleModal = () => {
@@ -492,7 +494,6 @@ const logout = () => {
     localStorage.removeItem('userData');
     window.location.href = '/login';
 };
-
 const prevPage = () => {
     if (currentPage.value > 1) currentPage.value--;
 };
@@ -500,10 +501,7 @@ const prevPage = () => {
 const nextPage = () => {
     if (currentPage.value < totalPages.value) currentPage.value++;
 };
-
-// ----------------------------------------------
 // Lifecycle Hooks
-// ----------------------------------------------
 onMounted(async () => {
     await fetchItems();
     await fetchSales();
