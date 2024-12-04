@@ -181,6 +181,21 @@
               </div>
             </div>
           </div>
+          <!-- Pagination Controls -->
+          <div class="mt-4 flex justify-center items-center space-x-4">
+            <button @click="goToPage(currentPage - 1)" :disabled="currentPage <= 1"
+              class="px-4 py-2 text-sm text-white bg-indigo-600 rounded-md hover:bg-indigo-700 disabled:bg-gray-300">
+              Previous
+            </button>
+            <span class="text-sm text-gray-700">
+              Page {{ currentPage }} of {{ totalPages }}
+            </span>
+            <button @click="goToPage(currentPage + 1)" :disabled="currentPage >= totalPages"
+              class="px-4 py-2 text-sm text-white bg-indigo-600 rounded-md hover:bg-indigo-700 disabled:bg-gray-300">
+              Next
+            </button>
+          </div>
+
         </main>
       </div>
     </div>
@@ -275,18 +290,14 @@
     </TransitionRoot>
   </div>
 </template>
-
 <script setup>
 import { ref, onBeforeUnmount, computed, onMounted } from 'vue';
 import axios from 'axios';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
-import {
-  BellIcon,
-  UserIcon,
-  ChevronDownIcon
-} from '@heroicons/vue/outline';
+import { BellIcon, UserIcon, ChevronDownIcon } from '@heroicons/vue/outline';
+
 // State
 const isSidebarOpen = ref(false);
 const isUserMenuOpen = ref(false);
@@ -297,11 +308,64 @@ const userMenuContainer = ref(null);
 const userName = ref('');
 const router = useRouter();
 const authStore = useAuthStore();
+const itemsPerPage = 6;
+const currentPage = ref(1);
+
+const filters = ref({
+  search: '',
+  category: '',
+  sortBy: 'name',
+});
+
+const totalPages = computed(() => Math.ceil(items.value.length / itemsPerPage));
+const goToPage = (page) => {
+  if (page > 0 && page <= totalPages.value) {
+    currentPage.value = page;
+  }
+};
+
+const filteredItems = computed(() => {
+  let result = items.value;
+
+  // Apply search filter
+  if (filters.value.search) {
+    result = result.filter(item =>
+      item.name.toLowerCase().includes(filters.value.search.toLowerCase())
+    );
+  }
+
+  // Apply category filter
+  if (filters.value.category) {
+    result = result.filter(item => item.category === filters.value.category);
+  }
+
+  // Apply sorting
+  if (filters.value.sortBy) {
+    result.sort((a, b) => {
+      if (filters.value.sortBy === 'name') {
+        return a.name.localeCompare(b.name);
+      } else if (filters.value.sortBy === 'quantity') {
+        return b.quantity - a.quantity; // Sort descending
+      } else if (filters.value.sortBy === 'price') {
+        return b.price - a.price; // Sort descending
+      }
+    });
+  }
+
+  // Pagination
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+
+  return result.slice(start, end);
+});
+
 const userMenuItems = [
-  { name: 'Logout', action: 'logout' }
+  { name: 'Logout', action: 'logout' },
 ];
 
 const categories = ['electronics', 'clothing', 'furniture', 'books', 'other'];
+
+// Methods
 const handleMenuItemClick = (item) => {
   switch (item.action) {
     case 'logout':
@@ -311,11 +375,13 @@ const handleMenuItemClick = (item) => {
   }
   isUserMenuOpen.value = false;
 };
+
 const handleClickOutside = (event) => {
   if (userMenuContainer.value && !userMenuContainer.value.contains(event.target)) {
     isUserMenuOpen.value = false;
   }
 };
+
 const formData = ref({
   name: '',
   description: '',
@@ -323,75 +389,36 @@ const formData = ref({
   category: 'electronics',
   quantity: 0,
   price: 0,
-  maxLimit: 0
+  maxLimit: 0,
 });
 
-const filters = ref({
-  search: '',
-  category: '',
-  sortBy: 'name'
-});
-
-// Computed
 const dashboardStats = computed(() => [
   {
     title: 'Total Items',
     value: items.value.length,
     trend: 12,
-    subtitle: 'From last month'
+    subtitle: 'From last month',
   },
   {
     title: 'Low Stock Items',
     value: items.value.filter(item => (item.quantity / item.maxLimit) < 0.2).length,
     trend: -2,
-    subtitle: 'Needs attention'
+    subtitle: 'Needs attention',
   },
   {
     title: 'Total Categories',
     value: new Set(items.value.map(item => item.category)).size,
     trend: 5,
-    subtitle: 'Active categories'
+    subtitle: 'Active categories',
   },
   {
     title: 'Total Value',
     value: formatPrice(items.value.reduce((total, item) => total + (item.price * item.quantity), 0)),
     trend: 8,
-    subtitle: 'Inventory worth'
-  }
+    subtitle: 'Inventory worth',
+  },
 ]);
 
-const filteredItems = computed(() => {
-  let result = [...items.value];
-
-  if (filters.value.search) {
-    const searchTerm = filters.value.search.toLowerCase();
-    result = result.filter(item =>
-      item.name.toLowerCase().includes(searchTerm) ||
-      item.description.toLowerCase().includes(searchTerm)
-    );
-  }
-
-  if (filters.value.category) {
-    result = result.filter(item => item.category === filters.value.category);
-  }
-
-  result.sort((a, b) => {
-    switch (filters.value.sortBy) {
-      case 'name':
-        return a.name.localeCompare(b.name);
-      case 'quantity':
-        return b.quantity - a.quantity;
-      case 'price':
-        return b.price - a.price;
-      default:
-        return 0;
-    }
-  });
-
-  return result;
-});
-
-// Methods
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
 };
@@ -403,7 +430,7 @@ const toggleUserMenu = () => {
 const formatPrice = (price) => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD'
+    currency: 'USD',
   }).format(price);
 };
 
@@ -416,7 +443,7 @@ const getStockBarClass = (item) => {
 const fetchItems = async () => {
   try {
     const response = await axios.get('http://localhost:5000/api/items', {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
     items.value = response.data;
   } catch (error) {
@@ -455,12 +482,11 @@ const handleSubmit = async () => {
   }
 };
 
-
 const deleteItem = async (item) => {
   if (confirm('Are you sure you want to delete this item?')) {
     try {
       await axios.delete(`http://localhost:5000/api/items/${item._id}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       await fetchItems();
     } catch (error) {
@@ -481,7 +507,7 @@ const openModal = (item = null) => {
       category: 'electronics',
       quantity: 0,
       price: 0,
-      maxLimit: 0
+      maxLimit: 0,
     };
   }
   showModal.value = true;
