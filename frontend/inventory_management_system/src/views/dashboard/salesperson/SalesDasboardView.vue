@@ -32,30 +32,24 @@
                 </div>
 
                 <nav class="p-4 space-y-2">
-                    <a href="#" class="flex items-center p-3 text-indigo-600 bg-indigo-50 rounded-lg">
+                    <router-link to="/sales-dashboard"
+                        class="flex items-center p-3 text-indigo-600 bg-indigo-50   rounded-lg"
+                        active-class="text-indigo-600 bg-indigo-50">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
-                            </path>
+                                d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                         </svg>
                         <span class="ml-3">My Sales</span>
-                    </a>
-                    <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-gray-50 rounded-lg">
+                    </router-link>
+                    <router-link to="/available-items"
+                        class="flex items-center p-3 text-gray-600 hover:bg-gray-50rounded-lg"
+                        active-class="text-indigo-600 bg-indigo-50">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                            </path>
-                        </svg>
-                        <span class="ml-3">Performance</span>
-                    </a>
-                    <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-gray-50 rounded-lg">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4">
-                            </path>
+                                d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                         </svg>
                         <span class="ml-3">Available Items</span>
-                    </a>
+                    </router-link>
                 </nav>
             </aside>
 
