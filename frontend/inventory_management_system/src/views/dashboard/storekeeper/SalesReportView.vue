@@ -31,7 +31,8 @@
                         </svg>
                         <span class="ml-3">Dashboard</span>
                     </router-link>
-                    <router-link to="/inventory" class="flex items-center p-3 text-indigo-600 bg-indigo-50 rounded-lg"
+                    <router-link to="/inventory"
+                        class="flex  text-gray-600 hover:bg-gray-50 items-center p-3  rounded-lg"
                         active-class="text-indigo-600 bg-indigo-50">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -39,12 +40,12 @@
                         </svg>
                         <span class="ml-3">Inventory</span>
                     </router-link>
-                    <router-link to="/sales-report"
-                        class="flex items-center p-3 text-gray-600 hover:bg-gray-50 rounded-lg"
+                    <router-link to="/sales-report" class="flex items-center p-3 rounded-lg"
                         active-class="text-indigo-600 bg-indigo-50">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                                d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                            </path>
                         </svg>
                         <span class="ml-3">Sales Report</span>
                     </router-link>
@@ -58,7 +59,7 @@
                     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                         <div
                             class="flex-1 flex flex-col items-center text-center lg:text-left lg:items-start lg:mr-auto">
-                            <p class="text-sm text-gray-500">Here's all your inventory items</p>
+                            <p class="text-sm text-gray-500">Here's your sales report</p>
                         </div>
                         <!-- Top Row: Hamburger Menu and Dropdown for Mobile -->
                         <div class="flex items-center justify-between lg:justify-end w-full lg:w-auto">
@@ -104,193 +105,27 @@
                             class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
                             <!-- Filter Controls -->
                             <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
-                                <select v-model="filters.category"
-                                    class="rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
-                                    <option value="">All Categories</option>
-                                    <option v-for="category in categories" :key="category" :value="category">
-                                        {{ category }}
-                                    </option>
-                                </select>
-                                <select v-model="filters.sortBy"
-                                    class="rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
-                                    <option value="name">Sort by Name</option>
-                                    <option value="quantity">Sort by Stock</option>
-                                    <option value="price">Sort by Price</option>
-                                </select>
+                                <input type="date" v-model="filters.startDate"
+                                    class="rounded-lg border-gray-300 focus:ring-indigo-500 focus:border-indigo-500" />
+                                <span class="text-gray-500">to</span>
+                                <input type="date" v-model="filters.endDate"
+                                    class="rounded-lg border-gray-300 focus:ring-indigo-500 focus:border-indigo-500" />
                             </div>
 
                             <!-- Search and Add -->
                             <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
-                                <input v-model="filters.search" type="text" placeholder="Search items..."
-                                    class="rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
-                                <button @click="openModal()" class="inline-flex justify-center items-center px-4 py-2 border border-transparent 
-                      rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700
-                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 4v16m8-8H4" />
-                                    </svg>
-                                    Add New Item
+                                <button @click="fetchSalesData"
+                                    class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                                    Apply Filter
                                 </button>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Items Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <div v-for="item in filteredItems" :key="item._id" class="bg-white rounded-lg shadow p-4">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <h3 class="text-lg font-medium text-gray-900">{{ item.name }}</h3>
-                                    <p class="text-sm text-gray-500">{{ item.category }}</p>
-                                </div>
-                                <div class="flex space-x-2">
-                                    <button @click="openModal(item)" class="text-gray-400 hover:text-indigo-600">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                        </svg>
-                                    </button>
-                                    <button @click="deleteItem(item)" class="text-gray-400 hover:text-red-600">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-4">{{ item.description }}</p>
-                            <p class="text-sm text-gray-500 mb-1">Model: {{ item.model }}</p>
-                            <div class="grid grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <p class="text-sm text-gray-500">Stock Level</p>
-                                    <p class="font-medium">{{ item.quantity }}/{{ item.maxLimit }}</p>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-gray-500">Price</p>
-                                    <p class="font-medium">{{ formatPrice(item.price) }}</p>
-                                </div>
-                            </div>
-                            <div class="relative pt-1">
-                                <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-100">
-                                    <div :class="getStockBarClass(item)"
-                                        :style="{ width: `${(item.quantity / item.maxLimit * 100)}%` }"
-                                        class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Pagination Controls -->
-                    <div class="mt-4 flex justify-center items-center space-x-4">
-                        <button @click="goToPage(currentPage - 1)" :disabled="currentPage <= 1"
-                            class="px-4 py-2 text-sm text-white bg-indigo-600 rounded-md hover:bg-indigo-700 disabled:bg-gray-300">
-                            Previous
-                        </button>
-                        <span class="text-sm text-gray-700">
-                            Page {{ currentPage }} of {{ totalPages }}
-                        </span>
-                        <button @click="goToPage(currentPage + 1)" :disabled="currentPage >= totalPages"
-                            class="px-4 py-2 text-sm text-white bg-indigo-600 rounded-md hover:bg-indigo-700 disabled:bg-gray-300">
-                            Next
-                        </button>
-                    </div>
-
                 </main>
             </div>
         </div>
-
-        <!-- Add/Edit Modal -->
-        <TransitionRoot appear :show="showModal" as="template">
-            <Dialog as="div" class="relative z-50" @close="closeModal">
-                <TransitionChild enter="duration-300 ease-out" enter-from="opacity-0" enter-to="opacity-100"
-                    leave="duration-200 ease-in" leave-from="opacity-100" leave-to="opacity-0" as="template">
-                    <div class="fixed inset-0 bg-black bg-opacity-25" />
-                </TransitionChild>
-
-                <div class="fixed inset-0 overflow-y-auto">
-                    <div class="flex min-h-full items-center justify-center p-4">
-                        <TransitionChild enter="duration-300 ease-out" enter-from="opacity-0 scale-95"
-                            enter-to="opacity-100 scale-100" leave="duration-200 ease-in"
-                            leave-from="opacity-100 scale-100" leave-to="opacity-0 scale-95" as="template">
-                            <DialogPanel
-                                class="w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all">
-                                <DialogTitle as="h3" class="text-lg font-medium text-gray-900 mb-4">
-                                    {{ editingItem ? 'Edit Item' : 'Add New Item' }}
-                                </DialogTitle>
-
-                                <form @submit.prevent="handleSubmit" class="space-y-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Name</label>
-                                        <input type="text" v-model="formData.name" required
-                                            class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2">
-                                    </div>
-
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Description</label>
-                                        <textarea v-model="formData.description" rows="3" required
-                                            class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2">
-                      </textarea>
-                                    </div>
-
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Model</label>
-                                        <input type="text" v-model="formData.model" required
-                                            class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2">
-                                    </div>
-
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700">Category</label>
-                                            <select v-model="formData.category" required
-                                                class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2">
-                                                <option v-for="category in categories" :key="category"
-                                                    :value="category">
-                                                    {{ category }}
-                                                </option>
-                                            </select>
-                                        </div>
-
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700">Quantity</label>
-                                            <input type="number" v-model.number="formData.quantity" required min="0"
-                                                class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2">
-                                        </div>
-                                    </div>
-
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700">Price</label>
-                                            <input type="number" v-model.number="formData.price" required min="0"
-                                                step="0.01"
-                                                class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2">
-                                        </div>
-
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700">Max Limit</label>
-                                            <input type="number" v-model.number="formData.maxLimit" required min="0"
-                                                class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2">
-                                        </div>
-                                    </div>
-
-                                    <div class="flex justify-end space-x-3 mt-6">
-                                        <button type="button" @click="closeModal"
-                                            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                                            Cancel
-                                        </button>
-                                        <button type="submit"
-                                            class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                            {{ editingItem ? 'Update' : 'Add' }} Item
-                                        </button>
-                                    </div>
-                                </form>
-                            </DialogPanel>
-                        </TransitionChild>
-                    </div>
-                </div>
-            </Dialog>
-        </TransitionRoot>
     </div>
+
 </template>
 <script setup>
 import { ref, onBeforeUnmount, computed, onMounted } from 'vue';

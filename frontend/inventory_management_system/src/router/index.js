@@ -55,6 +55,12 @@ const router = createRouter({
       component: () => import('@/views/dashboard/storekeeper/InventoryView.vue'),
       meta: { requiresAuth: true },
     },
+    {
+      path: '/sales-report',
+      name: 'sales-report',
+      component: () => import('@/views/dashboard/storekeeper/SalesReportView.vue'),
+      meta: { requiresAuth: true },
+    },
   ]
 })
 
