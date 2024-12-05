@@ -233,82 +233,152 @@
 
         <!-- New Sale Modal -->
         <TransitionRoot appear :show="showSaleModal" as="template">
-            <Dialog as="div" class="relative z-50" @close="closeNewSaleModal">
-                <TransitionChild enter="duration-300 ease-out" enter-from="opacity-0" enter-to="opacity-100"
-                    leave="duration-200 ease-in" leave-from="opacity-100" leave-to="opacity-0" as="template">
-                    <div class="fixed inset-0 bg-black bg-opacity-25" />
-                </TransitionChild>
+        <Dialog as="div" class="relative z-50" @close="closeNewSaleModal">
+            <TransitionChild
+                enter="duration-300 ease-out"
+                enter-from="opacity-0"
+                enter-to="opacity-100"
+                leave="duration-200 ease-in"
+                leave-from="opacity-100"
+                leave-to="opacity-0"
+                as="template"
+            >
+                <div class="fixed inset-0 bg-black bg-opacity-25" />
+            </TransitionChild>
 
-                <div class="fixed inset-0 overflow-y-auto">
-                    <div class="flex min-h-full items-center justify-center p-4">
-                        <TransitionChild enter="duration-300 ease-out" enter-from="opacity-0 scale-95"
-                            enter-to="opacity-100 scale-100" leave="duration-200 ease-in"
-                            leave-from="opacity-100 scale-100" leave-to="opacity-0 scale-95" as="template">
-                            <DialogPanel
-                                class="w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all">
-                                <DialogTitle as="h3" class="text-lg font-medium text-gray-900 mb-4">
-                                    Record New Sale
-                                </DialogTitle>
+            <div class="fixed inset-0 overflow-y-auto">
+                <div class="flex min-h-full items-center justify-center p-4">
+                    <TransitionChild
+                        enter="duration-300 ease-out"
+                        enter-from="opacity-0 scale-95"
+                        enter-to="opacity-100 scale-100"
+                        leave="duration-200 ease-in"
+                        leave-from="opacity-100 scale-100"
+                        leave-to="opacity-0 scale-95"
+                        as="template"
+                    >
+                        <DialogPanel
+                            class="w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all"
+                        >
+                            <DialogTitle
+                                as="h3"
+                                class="text-lg font-medium text-gray-900 mb-4"
+                            >
+                                Record New Sale
+                            </DialogTitle>
 
-                                <form @submit.prevent="handleSaleSubmit" class="space-y-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Item</label>
-                                        <select v-model="saleForm.itemId" required
-                                            class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2">
-                                            <option value="">Select Item</option>
-                                            <option v-for="item in availableItems" :key="item._id" :value="item._id">
-                                                {{ item.name }} - Stock: {{ item.quantity }} - {{
-                                                    formatPrice(item.price) }}
-                                            </option>
-                                        </select>
+                            <form
+                                @submit.prevent="handleSaleSubmit"
+                                class="space-y-4"
+                            >
+                                <!-- Category Filter -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Category</label>
+                                    <select
+                                        v-model="selectedCategory"
+                                        @change="filterItemsByCategory"
+                                        class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2"
+                                    >
+                                        <option value="">All Categories</option>
+                                        <option
+                                            v-for="category in categories"
+                                            :key="category"
+                                            :value="category"
+                                        >
+                                            {{ category }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <!-- Item Dropdown -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Item</label>
+                                    <select
+                                        v-model="saleForm.itemId"
+                                        required
+                                        class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2"
+                                    >
+                                        <option value="">Select Item</option>
+                                        <option
+                                            v-for="item in filteredItems"
+                                            :key="item._id"
+                                            :value="item._id"
+                                        >
+                                            {{ item.name }} - Stock: {{ item.quantity }} - {{ formatPrice(item.price) }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <!-- Quantity -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Quantity</label>
+                                    <input
+                                        type="number"
+                                        v-model.number="saleForm.quantity"
+                                        required
+                                        min="1"
+                                        :max="selectedItem?.quantity || 1"
+                                        class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2"
+                                    />
+                                    <p v-if="selectedItem" class="mt-1 text-sm text-gray-500">
+                                        Available: {{ selectedItem.quantity }}
+                                    </p>
+                                </div>
+
+                                <!-- Customer Name -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Customer Name</label>
+                                    <input
+                                        type="text"
+                                        v-model="saleForm.customerName"
+                                        required
+                                        class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2"
+                                    />
+                                </div>
+
+                                <!-- Customer Contact -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Customer Contact</label>
+                                    <input
+                                        type="text"
+                                        v-model="saleForm.customerContact"
+                                        class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2"
+                                    />
+                                </div>
+
+                                <!-- Total Amount -->
+                                <div class="mt-6 border-t pt-4">
+                                    <div class="flex justify-between text-sm">
+                                        <span class="font-medium text-gray-700">Total Amount:</span>
+                                        <span class="font-bold text-gray-900">
+                                            {{ calculateTotal }}
+                                        </span>
                                     </div>
+                                </div>
 
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Quantity</label>
-                                        <input type="number" v-model.number="saleForm.quantity" required min="1"
-                                            :max="selectedItem?.quantity || 1"
-                                            class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2">
-                                        <p v-if="selectedItem" class="mt-1 text-sm text-gray-500">
-                                            Available: {{ selectedItem.quantity }}
-                                        </p>
-                                    </div>
-
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Customer Name</label>
-                                        <input type="text" v-model="saleForm.customerName" required
-                                            class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2">
-                                    </div>
-
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Customer Contact</label>
-                                        <input type="text" v-model="saleForm.customerContact"
-                                            class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2">
-                                    </div>
-
-                                    <div class="mt-6 border-t pt-4">
-                                        <div class="flex justify-between text-sm">
-                                            <span class="font-medium text-gray-700">Total Amount:</span>
-                                            <span class="font-bold text-gray-900">{{ calculateTotal }}</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-6 flex justify-end space-x-3">
-                                        <button type="button" @click="closeNewSaleModal"
-                                            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg">
-                                            Cancel
-                                        </button>
-                                        <button type="submit"
-                                            class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg">
-                                            Complete Sale
-                                        </button>
-                                    </div>
-                                </form>
-                            </DialogPanel>
-                        </TransitionChild>
-                    </div>
+                                <!-- Action Buttons -->
+                                <div class="mt-6 flex justify-end space-x-3">
+                                    <button
+                                        type="button"
+                                        @click="closeNewSaleModal"
+                                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg"
+                                    >
+                                        Complete Sale
+                                    </button>
+                                </div>
+                            </form>
+                        </DialogPanel>
+                    </TransitionChild>
                 </div>
-            </Dialog>
-        </TransitionRoot>
+            </div>
+        </Dialog>
+    </TransitionRoot>
     </div>
 </template>
 
@@ -330,12 +400,14 @@ const searchQuery = ref('');
 const availableItems = ref([]);
 const recentSales = ref([]);
 const sales = ref([]);
+const selectedCategory = ref("");
 const saleForm = ref({
     itemId: '',
     quantity: 1,
     customerName: '',
     customerContact: ''
 });
+const categories = ['electronics', 'clothing', 'furniture', 'books', 'other'];
 const currentPage = ref(1);
 const itemsPerPage = ref(4);
 // Computed Properties
@@ -349,6 +421,9 @@ const calculateTotal = computed(() => {
     if (!selectedItem.value) return formatPrice(0);
     return formatPrice(selectedItem.value.price * saleForm.value.quantity);
 });
+const filterItemsByCategory = () => {
+    saleForm.value.itemId = ""; // Reset item selection when changing categories
+};
 const handleMenuItemClick = (item) => {
     switch (item.action) {
         case 'logout':
@@ -363,6 +438,15 @@ const handleClickOutside = (event) => {
         isUserMenuOpen.value = false;
     }
 };
+// Computed Properties
+const filteredItems = computed(() =>
+    selectedCategory.value
+        ? availableItems.value.filter(
+              (item) => item.category === selectedCategory.value
+          )
+        : availableItems.value
+);
+
 const filteredSales = computed(() => {
     if (!searchQuery.value) return recentSales.value;
 
