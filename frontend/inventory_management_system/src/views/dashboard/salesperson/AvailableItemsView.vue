@@ -46,46 +46,44 @@
             <div class="flex-1 flex flex-col overflow-hidden">
                 <!-- Top Navigation -->
                 <header class="bg-white border-b px-4 lg:px-6 py-4 w-full">
-                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-                        <div
-                            class="flex-1 flex flex-col items-center text-center lg:text-left lg:items-start lg:mr-auto">
-                            <p class="text-sm text-gray-500">Here's all your inventory items</p>
-                        </div>
-                        <!-- Top Row: Hamburger Menu and Dropdown for Mobile -->
-                        <div class="flex items-center justify-between lg:justify-end w-full lg:w-auto">
-                            <!-- Mobile Menu Button -->
-                            <button @click="toggleSidebar" class="p-2 rounded-lg bg-white shadow-lg lg:hidden">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                                </svg>
-                            </button>
+          <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+            <!-- Welcome Text -->
+            <div class="flex-1 flex flex-col items-center text-center lg:text-left lg:items-start lg:mr-auto">
+              <p class="text-sm text-gray-500">Here's all the available items</p>
+            </div>
 
-                            <!-- User Dropdown -->
-                            <div class="relative" ref="userMenuContainer">
-                                <button class="flex items-center justify-stretch" @click="toggleUserMenu">
-                                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200">
-                                        <UserIcon class="w-5 h-5 text-gray-600" />
-                                    </div>
-                                    <ChevronDownIcon class="w-5 h-5 text-gray-600"
-                                        :class="{ 'transform rotate-180': isUserMenuOpen }" />
-                                </button>
+            <!-- Top Row: Hamburger Menu and Dropdown for Mobile -->
+            <div class="flex items-center justify-between lg:justify-end w-full lg:w-auto">
+              <!-- Mobile Menu Button -->
+              <button @click="toggleSidebar" class="p-2 rounded-lg bg-white shadow-lg lg:hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="3" y1="12" x2="21" y2="12"></line>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+              </button>
 
-                                <!-- Dropdown Menu -->
-                                <div v-show="isUserMenuOpen"
-                                    class="absolute right-0 z-10 mt-2 w-26 rounded-md bg-white shadow-lg py-1">
-                                    <a v-for="item in userMenuItems" :key="item.name" @click="handleMenuItemClick(item)"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
-                                        {{ item.name }}
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </header>
+              <!-- User Dropdown -->
+              <div class="relative" ref="userMenuContainer">
+                <button class="flex items-center justify-stretch" @click="toggleUserMenu">
+                  <div class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200">
+                    <UserIcon class="w-5 h-5 text-gray-600" />
+                  </div>
+                  <ChevronDownIcon class="w-5 h-5 text-gray-600" :class="{ 'transform rotate-180': isUserMenuOpen }" />
+                </button>
+
+                <!-- Dropdown Menu -->
+                <div v-show="isUserMenuOpen" class="absolute right-0 z-10 mt-2 w-26 rounded-md bg-white shadow-lg py-1">
+                  <a v-for="item in userMenuItems" :key="item.name" @click="handleMenuItemClick(item)"
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+                    {{ item.name }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
 
                 <!-- Main Content Area -->
                 <main class="flex-1 overflow-y-auto bg-gray-50 p-4 lg:p-6">

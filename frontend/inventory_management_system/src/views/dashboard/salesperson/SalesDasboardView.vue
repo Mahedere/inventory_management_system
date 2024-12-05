@@ -1,16 +1,5 @@
 <template>
     <div class="bg-gray-50 min-h-screen">
-        <!-- Mobile Menu Button -->
-        <div class="lg:hidden fixed top-4 left-4 z-50">
-            <button @click="toggleSidebar" class="p-2 rounded-lg bg-white shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-            </button>
-        </div>
         <!-- Sidebar Overlay -->
         <div v-if="isSidebarOpen" class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" @click="toggleSidebar">
         </div>
@@ -56,42 +45,45 @@
             <!-- Main Content Area -->
             <div class="flex-1 flex flex-col overflow-hidden">
                 <!-- Top Navigation Bar -->
-                <header class="bg-white border-b px-4 lg:px-6 py-4">
-                    <div class="flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
-                        <div class="flex-1 ml-12 lg:ml-0">
-                            <h1 class="text-xl font-semibold text-gray-900 lg:text-2xl">Welcome, {{ userName }}</h1>
+                <header class="bg-white border-b px-4 lg:px-6 py-4 w-full">
+                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                        <!-- Welcome Text -->
+                        <div
+                            class="flex-1 flex flex-col items-center text-center lg:text-left lg:items-start lg:mr-auto">
+                            <h2 class="text-xl font-semibold text-gray-900 lg:text-2xl">Welcome, {{ userName }}</h2>
                             <p class="text-sm text-gray-500">Here's what's happening with your sales today.</p>
                         </div>
-                        <div class="flex items-center space-x-4">
+
+                        <!-- Top Row: Hamburger Menu and Dropdown for Mobile -->
+                        <div class="flex items-center justify-between lg:justify-end w-full lg:w-auto">
+                            <!-- Mobile Menu Button -->
+                            <button @click="toggleSidebar" class="p-2 rounded-lg bg-white shadow-lg lg:hidden">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                                </svg>
+                            </button>
+
+                            <!-- User Dropdown -->
                             <div class="relative" ref="userMenuContainer">
-                                <button @click="toggleUserMenu"
-                                    class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100">
-                                    <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-                                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                        </svg>
+                                <button class="flex items-center justify-stretch" @click="toggleUserMenu">
+                                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200">
+                                        <UserIcon class="w-5 h-5 text-gray-600" />
                                     </div>
-                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7" />
-                                    </svg>
+                                    <ChevronDownIcon class="w-5 h-5 text-gray-600"
+                                        :class="{ 'transform rotate-180': isUserMenuOpen }" />
                                 </button>
 
+                                <!-- Dropdown Menu -->
                                 <div v-show="isUserMenuOpen"
-                                    class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                                    <div class="py-1">
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-                                        <button @click="logout"
-                                            class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                            Logout
-                                        </button>
-                                    </div>
+                                    class="absolute right-0 z-10 mt-2 w-26 rounded-md bg-white shadow-lg py-1">
+                                    <a v-for="item in userMenuItems" :key="item.name" @click="handleMenuItemClick(item)"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+                                        {{ item.name }}
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -323,13 +315,17 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
-
+import { BellIcon, UserIcon, ChevronDownIcon } from '@heroicons/vue/outline';
 // State
 const isSidebarOpen = ref(false);
 const isUserMenuOpen = ref(false);
 const showSaleModal = ref(false);
 const userName = ref('');
+const router = useRouter();
+const authStore = useAuthStore();
 const searchQuery = ref('');
 const availableItems = ref([]);
 const recentSales = ref([]);
@@ -346,12 +342,27 @@ const itemsPerPage = ref(4);
 const selectedItem = computed(() =>
     availableItems.value.find(item => item._id === saleForm.value.itemId)
 );
-
+const userMenuItems = [
+    { name: 'Logout', action: 'logout' },
+];
 const calculateTotal = computed(() => {
     if (!selectedItem.value) return formatPrice(0);
     return formatPrice(selectedItem.value.price * saleForm.value.quantity);
 });
-
+const handleMenuItemClick = (item) => {
+    switch (item.action) {
+        case 'logout':
+            authStore.logout();
+            router.push('/login');
+            break;
+    }
+    isUserMenuOpen.value = false;
+};
+const handleClickOutside = (event) => {
+    if (userMenuContainer.value && !userMenuContainer.value.contains(event.target)) {
+        isUserMenuOpen.value = false;
+    }
+};
 const filteredSales = computed(() => {
     if (!searchQuery.value) return recentSales.value;
 
