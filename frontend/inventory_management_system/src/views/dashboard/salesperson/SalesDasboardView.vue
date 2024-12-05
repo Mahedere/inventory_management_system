@@ -254,7 +254,7 @@
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700">Item</label>
                                         <select v-model="saleForm.itemId" required
-                                            class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
+                                            class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2">
                                             <option value="">Select Item</option>
                                             <option v-for="item in availableItems" :key="item._id" :value="item._id">
                                                 {{ item.name }} - Stock: {{ item.quantity }} - {{
@@ -267,7 +267,7 @@
                                         <label class="block text-sm font-medium text-gray-700">Quantity</label>
                                         <input type="number" v-model.number="saleForm.quantity" required min="1"
                                             :max="selectedItem?.quantity || 1"
-                                            class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
+                                            class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2">
                                         <p v-if="selectedItem" class="mt-1 text-sm text-gray-500">
                                             Available: {{ selectedItem.quantity }}
                                         </p>
@@ -276,13 +276,13 @@
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700">Customer Name</label>
                                         <input type="text" v-model="saleForm.customerName" required
-                                            class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
+                                            class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2">
                                     </div>
 
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700">Customer Contact</label>
                                         <input type="text" v-model="saleForm.customerContact"
-                                            class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
+                                            class="mt-1 block w-full rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2">
                                     </div>
 
                                     <div class="mt-6 border-t pt-4">
