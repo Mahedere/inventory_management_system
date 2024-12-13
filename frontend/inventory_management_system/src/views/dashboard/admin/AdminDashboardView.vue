@@ -170,6 +170,28 @@
         </button>
       </div>
     </section>
+    <div v-if="showConfirmDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Confirm Role Assignment</h3>
+    <p class="text-gray-600 mb-6">
+      Are you sure you want to assign {{ selectedUser?.name }} as a {{ pendingRole }}?
+    </p>
+    <div class="flex justify-end space-x-4">
+      <button
+        @click="showConfirmDialog = false"
+        class="px-4 py-2 text-sm text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+      >
+        Cancel
+      </button>
+      <button
+        @click="confirmAssignRole"
+        class="px-4 py-2 text-sm text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+      >
+        Confirm
+      </button>
+    </div>
+  </div>
+</div>
   </StoreDashboardLayout>
 </template>
 
@@ -177,12 +199,19 @@
 import { ref, computed, onMounted } from 'vue'
 import { useUserStore } from '@/stores/users'
 import TopNav from '@/components/dashboard/admin/TopNav.vue'
+
 const userStore = useUserStore()
+
+// State variables
 const searchQuery = ref('')
 const roleFilter = ref('')
 const currentPage = ref(1)
 const usersPerPage = 4
+const showConfirmDialog = ref(false)
+const selectedUser = ref(null)
+const pendingRole = ref('')
 
+// Dashboard stats
 const dashboardStats = computed(() => [
   {
     title: 'Total Users',
@@ -210,6 +239,7 @@ const dashboardStats = computed(() => [
   },
 ])
 
+// Computed properties for user filtering and pagination
 const guestUsers = computed(() => userStore.guestUsers)
 
 const filteredUsers = computed(() => {
@@ -229,13 +259,13 @@ const filteredUsers = computed(() => {
   return users
 })
 
-// Pagination computed property
 const totalPages = computed(() => Math.ceil(filteredUsers.value.length / usersPerPage))
 const paginatedUsers = computed(() => {
   const start = (currentPage.value - 1) * usersPerPage
   return filteredUsers.value.slice(start, start + usersPerPage)
 })
 
+// Utility function
 const formatDate = (date) => {
   return new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -244,9 +274,23 @@ const formatDate = (date) => {
   })
 }
 
-const assignRole = async (user) => {
+// Methods
+const assignRole = (user) => {
+  // Set selected user and pending role
+  selectedUser.value = user
+  pendingRole.value = user.selectedRole
+  showConfirmDialog.value = true
+}
+
+const confirmAssignRole = async () => {
   try {
-    await userStore.assignRole(user._id, user.selectedRole)
+    if (selectedUser.value && pendingRole.value) {
+      // Assign role through the store
+      await userStore.assignRole(selectedUser.value._id, pendingRole.value)
+      showConfirmDialog.value = false
+      selectedUser.value = null
+      pendingRole.value = ''
+    }
   } catch (error) {
     console.error('Error assigning role:', error)
   }
