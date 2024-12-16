@@ -8,17 +8,20 @@ const mongoose = require("mongoose");
  */
 const connectDB = async () => {
   try {
-    await mongoose.connect(
-      process.env.MONGO_URI || "mongodb://127.0.0.1:27017/inventoryDB",
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
-    );
+    const mongoURI =
+      process.env.MONGO_URI ||
+      "mongodb+srv://mahederetebebe98:efoEWiKKVy1SyIwy@inventory.0kfn8.mongodb.net/";
+
+    // Connect to MongoDB using the URI
+    await mongoose.connect(mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
     console.log("MongoDB connected...");
   } catch (err) {
     console.error("MongoDB connection error:", err);
-    process.exit(1);
+    process.exit(1); 
   }
 };
 
