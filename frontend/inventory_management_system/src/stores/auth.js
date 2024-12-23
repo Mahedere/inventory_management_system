@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('auth', {
         this.error = null;
 
         const response = await axios.post(
-          'http://localhost:5000/api/auth/login',
+          'https://inventory-backend-sepia.vercel.app/api/auth/login',
           credentials
         );
 
@@ -56,7 +56,7 @@ export const useAuthStore = defineStore('auth', {
         this.error = null;
 
         const response = await axios.post(
-          'http://localhost:5000/api/auth/register',
+          'https://inventory-backend-sepia.vercel.app/api/auth/register',
           userData
         );
 
@@ -84,7 +84,7 @@ export const useAuthStore = defineStore('auth', {
         this.loading = true;
         this.error = null;
 
-        await axios.post('http://localhost:5000/api/auth/forgot-password', {
+        await axios.post('https://inventory-backend-sepia.vercel.app/api/auth/forgot-password', {
           email,
         });
 

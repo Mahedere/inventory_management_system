@@ -279,7 +279,7 @@ const getStockBarClass = (item) => {
 
 const fetchItems = async () => {
     try {
-        const response = await axios.get('http://localhost:5000/api/items', {
+        const response = await axios.get('https://inventory-backend-sepia.vercel.app/api/items', {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
         items.value = response.data;
@@ -292,8 +292,8 @@ const handleSubmit = async () => {
     try {
         const method = editingItem.value ? 'patch' : 'post';
         const url = editingItem.value
-            ? `http://localhost:5000/api/items/${editingItem.value._id}`
-            : 'http://localhost:5000/api/items';
+            ? `https://inventory-backend-sepia.vercel.app/api/items/${editingItem.value._id}`
+            : 'https://inventory-backend-sepia.vercel.app/api/items';
 
         const data = {
             name: formData.value.name,
@@ -322,7 +322,7 @@ const handleSubmit = async () => {
 const deleteItem = async (item) => {
     if (confirm('Are you sure you want to delete this item?')) {
         try {
-            await axios.delete(`http://localhost:5000/api/items/${item._id}`, {
+            await axios.delete(`https://inventory-backend-sepia.vercel.app/api/items/${item._id}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             });
             await fetchItems();

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { showError } from './notification';
 
 // Set base URL
-axios.defaults.baseURL = process.env.VUE_APP_API_URL || 'http://localhost:5000/api';
+axios.defaults.baseURL = process.env.VUE_APP_API_URL || 'https://inventory-backend-sepia.vercel.app/api';
 
 // Request interceptor for adding token
 axios.interceptors.request.use(

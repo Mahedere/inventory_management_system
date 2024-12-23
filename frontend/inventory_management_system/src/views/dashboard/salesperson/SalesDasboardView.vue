@@ -517,7 +517,7 @@ const formatDate = (date) => {
 
 const fetchItems = async () => {
     try {
-        const response = await axios.get('http://localhost:5000/api/items', {
+        const response = await axios.get('https://inventory-backend-sepia.vercel.app/api/items', {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
         availableItems.value = response.data;
@@ -527,7 +527,7 @@ const fetchItems = async () => {
 };
 const fetchRecentSales = async () => {
     try {
-        const response = await axios.get('http://localhost:5000/api/sales/salesperson', {
+        const response = await axios.get('https://inventory-backend-sepia.vercel.app/api/sales/salesperson', {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
         console.log('API Response:', response.data); // Log the response
@@ -539,7 +539,7 @@ const fetchRecentSales = async () => {
 
 const fetchSales = async () => {
     try {
-        const response = await axios.get('http://localhost:5000/api/sales/performance', {
+        const response = await axios.get('https://inventory-backend-sepia.vercel.app/api/sales/performance', {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
         recentSales.value = response.data.sales || [];
@@ -550,7 +550,7 @@ const fetchSales = async () => {
 
 const handleSaleSubmit = async () => {
     try {
-        const response = await axios.post('http://localhost:5000/api/sales', saleForm.value, {
+        const response = await axios.post('https://inventory-backend-sepia.vercel.app/api/sales', saleForm.value, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
 
