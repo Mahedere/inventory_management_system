@@ -20,6 +20,13 @@ app.use(
         allowedHeaders: ['Content-Type', 'Authorization'],    // credentials: true
     }))
 app.use(express.json());
+app.use((req, res, next) => {
+    res.setHeader(
+      "Content-Security-Policy",
+      "default-src 'self'; font-src 'self' data:; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;"
+    );
+    next();
+  });  
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/items', itemRoutes);
