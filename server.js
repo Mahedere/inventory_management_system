@@ -15,7 +15,7 @@ connectDB();
 // Middleware
 app.use(
   cors({ 
-    origin: "https://inventory-management-system-tau-tawny.vercel.app/",
+    origin: "*",
     // credentials: true
    }))
 app.use(express.json());
